@@ -1,0 +1,2088 @@
+/* ============ RESET / BASE ============ */
+* { box-sizing: border-box; }
+
+/* Lenis gestiona todo el suavizado — scroll-behavior nativo debe ser `auto`
+   para evitar conflictos (saltos dobles, anclas erráticas). */
+html { scroll-behavior: auto; }
+section[id] { scroll-margin-top: 84px; }
+
+html, body { margin: 0; padding: 0; background: var(--color-crema); }
+
+body {
+  font-family: var(--font-sans);
+  color: var(--color-verde);
+  background: var(--color-crema);
+  overflow-x: hidden;
+}
+
+::selection { background: var(--color-terracota); color: var(--color-crema); }
+
+/* Visually hidden but still reachable by assistive tech — used where a
+   decorative element (e.g. the repeated marquee phrase) needs a single,
+   real accessible heading alongside it. */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+a { color: var(--color-terracota); text-decoration: none; }
+a:hover { color: var(--color-terracota-hover); }
+
+img { display: block; max-width: 100%; }
+
+.container {
+  max-width: 1440px;
+  margin: 0 auto;
+  padding-left: 44px;
+  padding-right: 44px;
+}
+
+@media (max-width: 600px) {
+  .container { padding-left: 24px; padding-right: 24px; }
+}
+
+/* ============ 12-COLUMN GRID (site-wide) ============
+   Every asymmetric layout maps onto this: one shared max-width/gutter, and
+   spans expressed as real column ranges (col-1-6 = columns 1-6, etc).
+   "Asymmetric" always means one element on a wider span than the other —
+   never a freeform offset unrelated to the grid. */
+.grid-12 {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  column-gap: 32px;
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 0 44px;
+}
+
+.col-1-6 { grid-column: 1 / 7; }
+.col-7-12 { grid-column: 7 / 13; }
+.col-1-7 { grid-column: 1 / 8; }
+.col-8-12 { grid-column: 8 / 13; }
+.col-1-5 { grid-column: 1 / 6; }
+.col-6-12 { grid-column: 6 / 13; }
+
+@media (max-width: 900px) {
+  .grid-12 { grid-template-columns: 1fr; row-gap: 40px; }
+  .col-1-6, .col-7-12, .col-1-7, .col-8-12, .col-1-5, .col-6-12 { grid-column: 1 / -1; }
+}
+
+@media (max-width: 600px) {
+  .grid-12 { padding: 0 24px; }
+}
+
+/* Simple fade-in on route change (App.jsx keys <main> by pathname) */
+.page-enter { animation: pageEnter .35s ease both; }
+@keyframes pageEnter { from { opacity: 0; } to { opacity: 1; } }
+
+/* Nav lives entirely in components/layout/StaggeredMenu.jsx + .css now. */
+
+/* ============ BUTTONS ============ */
+.btn-terracota {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: var(--color-terracota);
+  color: var(--color-crema);
+  padding: 15px 28px;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  border: none;
+  cursor: pointer;
+  transition: background-color .25s ease;
+}
+.btn-terracota:hover { background: var(--color-terracota-hover); color: var(--color-crema); }
+
+.btn-outline-crema {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  border: 1.5px solid var(--color-crema);
+  color: var(--color-crema);
+  padding: 17px 30px;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  transition: background-color .25s ease, color .25s ease;
+}
+.btn-outline-crema:hover { background: var(--color-crema); color: var(--color-terracota); }
+
+.btn-outline-verde {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  border: 1.5px solid var(--color-verde);
+  color: var(--color-verde);
+  padding: 15px 28px;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  transition: background-color .25s ease, color .25s ease;
+}
+.btn-outline-verde:hover { background: var(--color-verde); color: var(--color-crema); }
+
+.btn-terracota span, .btn-outline-crema span, .btn-outline-verde span {
+  display: inline-block;
+  transition: transform .25s ease;
+}
+.btn-terracota:hover span, .btn-outline-crema:hover span, .btn-outline-verde:hover span {
+  transform: translateX(4px);
+}
+
+/* ============ TAGS / EYEBROW ============ */
+.eyebrow {
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  opacity: 0.72;
+}
+
+
+.pill {
+  display: inline-block;
+  background: var(--color-crema);
+  color: var(--color-verde);
+  padding: 5px 12px;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+
+/* ============ IMAGE PLACEHOLDER ============
+   Rendered by <Card>/<Hero>/etc. whenever no `image` prop is supplied —
+   always a neutral crema box with dark text regardless of section bg. */
+.img-placeholder {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  min-height: 220px;
+  background: repeating-linear-gradient(
+    135deg,
+    rgba(245,242,234,1),
+    rgba(245,242,234,1) 10px,
+    rgba(29,67,49,0.06) 10px,
+    rgba(29,67,49,0.06) 20px
+  );
+  border: 1px solid rgba(29,67,49,0.18);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 16px;
+}
+
+.img-placeholder span {
+  font-family: var(--font-sans), monospace;
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: rgba(29,67,49,0.65);
+}
+
+/* ============ HOME HERO (full-bleed photo, centered) ============
+   Deliberate replacement of the old asymmetric wordmark-cut-by-photo hero —
+   centered composition on a full-viewport photo, verde-tinted overlay (not
+   pure black, keeps the brand palette), availability widget floating on
+   the photo's bottom edge. */
+.hero-full {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-crema);
+  text-align: center;
+}
+
+/* Clips the bg's parallax overdraw. Without this, .hero-full-bg (inset
+   -3% for parallax headroom) paints past the hero's bottom edge and over
+   the next section — the section itself must NOT be overflow:hidden, or
+   it would clip the floating widget and its calendar popover. */
+.hero-full-media {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+}
+
+.hero-full-bg {
+  position: absolute;
+  inset: -3% 0;
+  z-index: 0;
+  will-change: transform;
+}
+
+.hero-full-bg img,
+.hero-full-bg .img-placeholder { width: 100%; height: 100%; object-fit: cover; }
+
+.hero-full-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: radial-gradient(
+    ellipse 85% 75% at 50% 50%,
+    rgba(29, 67, 49, 0.68) 0%,
+    rgba(29, 67, 49, 0.6) 55%,
+    rgba(29, 67, 49, 0.5) 100%
+  );
+}
+
+.hero-full-content {
+  position: relative;
+  z-index: 2;
+  max-width: 720px;
+  padding: 0 32px;
+  margin-top: -48px;
+}
+
+.hero-full-content .eyebrow {
+  display: block;
+  margin-bottom: 24px;
+  opacity: 0.9;
+  text-shadow: 0 2px 14px rgba(15, 33, 23, 0.35);
+}
+
+/* wm-line renders either as a BlurText <p class="blur-text wm-line"> (each
+   letter its own motion.span) or, under prefers-reduced-motion, a plain
+   <span class="wm-line"> — this rule covers both. Each line is still its
+   own unbreakable block: the browser must never choose where "HOTEL" /
+   "LOBITOS" wrap, so flex-wrap:nowrap (stops BlurText's per-letter spans
+   splitting) and white-space:nowrap (covers the plain-text fallback) are
+   both set regardless of which path rendered. */
+.hero-full-title { margin: 0 0 28px; }
+
+.hero-full-title .wm-line {
+  display: flex;
+  flex-wrap: nowrap;
+  white-space: nowrap;
+  justify-content: center;
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: clamp(52px, 9vw, 128px);
+  line-height: 0.92;
+  letter-spacing: 0.005em;
+  text-transform: uppercase;
+  text-shadow: 0 4px 24px rgba(15, 33, 23, 0.4);
+}
+
+/* Two-class selector on purpose: BlurText's own `.blur-text { margin: 0 }`
+   (declared later in this sheet) ties on specificity with a single-class
+   rule and would strip the centering margin + button gap. */
+.hero-full-content .hero-full-desc {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: clamp(17px, 2vw, 22px);
+  line-height: 1.5;
+  max-width: 46ch;
+  margin: 0 auto 34px;
+  opacity: 0.95;
+  justify-content: center;
+  text-shadow: 0 2px 14px rgba(15, 33, 23, 0.35);
+}
+
+@media (max-width: 700px) {
+  .hero-full-content { padding: 0 24px; }
+}
+
+/* ============ AVAILABILITY WIDGET (floating on hero's bottom edge) ============
+   Anchored with a fixed margin from the hero's own bottom edge (not a
+   height-relative 50/50 split) — it still overlaps up into the photo, but
+   its own bottom edge never scales past the fold on short viewports. */
+.availability-widget-wrap {
+  position: absolute;
+  left: 50%;
+  bottom: 28px;
+  transform: translateX(-50%);
+  z-index: 3;
+  width: min(1160px, calc(100% - 48px));
+}
+
+/* ≤900px: the stacked widget is ~400px+ tall — floating it over a
+   vertically-centered hero makes it cover the hero's own CTA button. Put
+   it in normal flow below the content instead; the hero grows past 100vh
+   if it must. */
+@media (max-width: 900px) {
+  .hero-full {
+    flex-direction: column;
+    justify-content: center;
+    padding: 112px 16px 40px;
+  }
+  .hero-full-content { margin-top: 0; }
+  .availability-widget-wrap {
+    position: static;
+    transform: none;
+    width: 100%;
+    max-width: 560px;
+    margin: 40px auto 0;
+  }
+}
+
+.availability-widget {
+  background: var(--color-crema);
+  color: var(--color-verde);
+  display: flex;
+  /* wrap: between ~900-1100px the four fields + button add up to more than
+     the row — without this the submit button gets clipped off the right
+     edge instead of dropping to a second line. */
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 18px 0;
+  padding: 26px 32px;
+  box-shadow: 0 18px 44px rgba(15, 33, 23, 0.28);
+}
+
+/* Content-sized, not an even 1/4 split of the row — a field is only ever
+   as wide as its label/input actually need, so a short "dd/mm/aaaa" +
+   icon doesn't sit inside a stretched box with dead space on the right. */
+.aw-field {
+  flex: 0 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+  padding: 0 26px;
+}
+
+/* Divider only BETWEEN fields — the row's first item never carries one.
+   :not(:first-child) instead of `.aw-field + .aw-field` on purpose:
+   Check-in/Check-out live inside the .aw-daterange wrapper, so
+   "Habitaciones" has no adjacent .aw-field sibling (its previous sibling
+   is the wrapper) and the `+` pattern would drop its divider. */
+.aw-field:not(:first-child) {
+  border-left: 1px solid rgba(29, 67, 49, 0.16);
+}
+
+.aw-field:first-child { padding-left: 0; }
+
+.aw-label {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  opacity: 0.6;
+}
+
+.aw-input {
+  align-self: flex-start;
+  width: auto;
+  font-family: var(--font-sans);
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--color-verde);
+  background: transparent;
+  border: none;
+  padding: 0;
+  appearance: none;
+  color-scheme: light;
+  cursor: pointer;
+}
+
+.aw-input:focus { outline: none; }
+
+/* ============ DATE RANGE PICKER (react-day-picker, see ui/DateRangePicker.jsx) ============
+   Check-in/check-out triggers reuse .aw-field/.aw-label/.aw-input so they
+   look identical to the native inputs they replaced — these just add the
+   <button>-specific resets and the empty-state placeholder color. */
+.aw-daterange {
+  position: relative;
+  display: flex;
+}
+
+.aw-daterange-trigger {
+  appearance: none;
+  background: transparent;
+  /* Full border reset — these are <button>s, and without this the UA's
+     default 2px button border shows through on whichever sides the
+     .aw-field divider rules don't explicitly set. The shared
+     .aw-field:not(:first-child) rule re-adds the 1px divider where due. */
+  border: none;
+  cursor: pointer;
+  text-align: left;
+  font: inherit;
+  color: inherit;
+}
+.aw-daterange-trigger:first-child { padding-left: 0; }
+
+.aw-daterange-trigger:focus-visible {
+  outline: 2px solid var(--color-terracota);
+  outline-offset: 2px;
+}
+
+.aw-daterange-value.is-empty { opacity: 0.45; font-weight: 500; }
+
+/* Floating panel — same crema/shadow language as the widget itself.
+   Position is set inline by DateRangePicker.jsx (measures real available
+   space so it flips above/below and clamps horizontally rather than ever
+   rendering off the edge of the viewport). */
+.aw-calendar-popover {
+  position: absolute;
+  left: 0;
+  z-index: 10;
+  background: var(--color-crema);
+  padding: 18px 20px;
+  box-shadow: 0 18px 44px rgba(15, 33, 23, 0.28);
+  border: 1px solid rgba(29, 67, 49, 0.12);
+  max-width: calc(100vw - 24px);
+  /* Belt-and-suspenders: reposition() picks whichever side has more room,
+     but on a short viewport a 2-month calendar can still be taller than
+     either side has to offer — this guarantees it never breaks past the
+     screen edge regardless, scrolling internally as a last resort. */
+  max-height: calc(100vh - 24px);
+  overflow-x: auto;
+  overflow-y: auto;
+}
+
+.aw-calendar-popover-down { top: calc(100% + 12px); }
+.aw-calendar-popover-up { bottom: calc(100% + 12px); }
+
+/* ---- Theming hooks — react-day-picker v10 exposes its whole palette as
+   CSS custom properties on .rdp-root, so no selector-specificity fights
+   are needed: redeclare the variables using this project's own palette. */
+.aw-calendar-popover .rdp-root {
+  --rdp-accent-color: var(--color-terracota);
+  --rdp-accent-background-color: rgba(143, 62, 30, 0.12);
+  --rdp-today-color: var(--color-terracota);
+  --rdp-range_start-date-background-color: var(--color-terracota);
+  --rdp-range_end-date-background-color: var(--color-terracota);
+  --rdp-range_start-color: var(--color-crema);
+  --rdp-range_end-color: var(--color-crema);
+  --rdp-range_middle-background-color: rgba(29, 67, 49, 0.1);
+  --rdp-range_middle-color: var(--color-verde);
+  --rdp-selected-border: 2px solid var(--color-terracota);
+  --rdp-outside-opacity: 0.35;
+  --rdp-disabled-opacity: 0.28;
+  font-family: var(--font-sans);
+  color: var(--color-verde);
+}
+
+/* Month/year header */
+.aw-calendar-popover .rdp-month_caption {
+  font-family: var(--font-serif);
+  font-weight: 600;
+  color: var(--color-verde);
+}
+
+/* Mon/Tue/Wed... row */
+.aw-calendar-popover .rdp-weekday {
+  color: var(--color-verde);
+  opacity: 0.55;
+  text-transform: uppercase;
+  font-size: 10px;
+  letter-spacing: 0.08em;
+}
+
+/* Prev/next month arrows */
+.aw-calendar-popover .rdp-button_previous,
+.aw-calendar-popover .rdp-button_next {
+  color: var(--color-verde);
+}
+.aw-calendar-popover .rdp-chevron { fill: var(--color-terracota); }
+
+/* Day hover — not covered by the library's own stylesheet at all */
+.aw-calendar-popover .rdp-day_button:hover:not(:disabled) {
+  background-color: rgba(143, 62, 30, 0.12);
+}
+
+@media (max-width: 640px) {
+  .aw-calendar-popover .rdp-months { gap: 0; }
+  .aw-calendar-popover .rdp-month + .rdp-month { display: none; }
+}
+
+/* ============ DROPDOWN (Habitaciones / Huéspedes, see ui/Dropdown.jsx) ============
+   Replaces the native <select>, which couldn't be styled at all — the
+   trigger keeps the exact same arrow affordance the select used to have
+   (same data-uri chevron), and the floating menu reuses the calendar
+   popover's crema/border/shadow language plus its exact terracota hover
+   tint (rgba(143,62,30,0.12), same value as .rdp-day_button:hover) so the
+   two floating panels in this widget read as one visual system. */
+.aw-dropdown { position: relative; }
+
+.aw-dropdown-trigger {
+  min-width: 40px;
+  padding-right: 18px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%231D4331' stroke-width='1.5' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right center;
+  background-size: 10px 6px;
+}
+
+.aw-dropdown-trigger:focus-visible {
+  outline: 2px solid var(--color-terracota);
+  outline-offset: 2px;
+}
+
+.aw-dropdown-menu {
+  position: absolute;
+  left: 0;
+  z-index: 10;
+  min-width: 100%;
+  margin: 0;
+  padding: 8px;
+  list-style: none;
+  background: var(--color-crema);
+  border: 1px solid rgba(29, 67, 49, 0.12);
+  box-shadow: 0 18px 44px rgba(15, 33, 23, 0.28);
+  max-height: 240px;
+  overflow-y: auto;
+  animation: dropdownMenuEnter 0.18s ease both;
+}
+
+.aw-dropdown-menu-down { top: calc(100% + 12px); }
+.aw-dropdown-menu-up { bottom: calc(100% + 12px); }
+
+@keyframes dropdownMenuEnter {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.aw-dropdown-option {
+  display: block;
+  width: 100%;
+  background: none;
+  border: none;
+  text-align: left;
+  font: inherit;
+  font-size: 15px;
+  color: var(--color-verde);
+  padding: 9px 12px;
+  cursor: pointer;
+  transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+.aw-dropdown-option:hover,
+.aw-dropdown-option:focus-visible {
+  background-color: rgba(143, 62, 30, 0.12);
+  color: var(--color-terracota);
+  outline: none;
+}
+
+.aw-dropdown-option.active { color: var(--color-terracota); font-weight: 700; }
+
+.aw-submit {
+  flex-shrink: 0;
+  align-self: center;
+  margin-left: auto;
+  background: var(--color-terracota);
+  color: var(--color-crema);
+  border: none;
+  padding: 17px 26px;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: background-color .25s ease;
+}
+.aw-submit:hover { background: var(--color-terracota-hover); }
+
+.aw-error {
+  margin: 12px 0 0;
+  padding: 12px 18px;
+  background: var(--color-crema);
+  color: var(--color-terracota);
+  font-size: 13px;
+  font-weight: 600;
+  box-shadow: 0 8px 20px rgba(15, 33, 23, 0.18);
+}
+
+@media (max-width: 900px) {
+  .availability-widget { flex-direction: column; align-items: stretch; padding: 24px; gap: 20px; }
+  /* Selector doubled with :not(:first-child) to out-rank the desktop
+     divider rule (0,2,0) — media queries don't add specificity, so the
+     plain .aw-field override alone would lose and leave stray left
+     borders on the stacked layout. */
+  .aw-field,
+  .aw-field:not(:first-child) { padding: 0 0 16px; border-left: none; border-bottom: 1px solid rgba(29,67,49,0.16); }
+  .aw-field:last-of-type { border-bottom: none; padding-bottom: 0; }
+  .aw-submit { margin-left: 0; width: 100%; }
+
+  /* :last-of-type above is scoped per-parent, so it would ALSO match
+     Check-out (last .aw-field within .aw-daterange, a different parent
+     than Huéspedes) and strip its divider — force both triggers to keep
+     theirs regardless, only Huéspedes is the true last field overall. */
+  .aw-daterange { flex-direction: column; gap: 0; }
+  .aw-daterange-trigger,
+  .aw-daterange-trigger:last-of-type {
+    width: 100%;
+    min-height: 48px;
+    padding: 0 0 16px;
+    border-bottom: 1px solid rgba(29, 67, 49, 0.16);
+  }
+
+  /* Habitaciones/Huéspedes trigger measured at 16px tall before this rule —
+     the button only wraps its own value text ("1"/"2"), well under the
+     48px minimum touch target (WCAG 2.5.5 / Apple & Google's own a11y
+     guidelines both land in the 44-48px range). */
+  .aw-dropdown-trigger { min-height: 48px; display: flex; align-items: center; }
+
+  /* Both floating panels stop trusting the JS-computed `left` (measured
+     against the trigger, meant for desktop's horizontal row) and instead
+     center on the widget itself and cap to 90vw — simpler and more robust
+     on a narrow screen than clamping the old positioning math down to fit. */
+  .aw-calendar-popover,
+  .aw-dropdown-menu {
+    left: 50% !important;
+    transform: translateX(-50%);
+    width: 90vw;
+    max-width: 90vw;
+    min-width: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .aw-submit { transition: none !important; }
+}
+
+/* ============ PAGE HERO (Hotel / Surf Academy — display headline, own copy) ============ */
+.page-hero {
+  position: relative;
+  background: var(--color-verde);
+  color: var(--color-crema);
+  padding: 150px 44px 72px;
+  overflow: hidden;
+}
+
+.page-hero-inner {
+  max-width: 1440px;
+  margin: 0 auto;
+  position: relative;
+}
+
+.page-hero .eyebrow { margin-bottom: 24px; }
+
+.page-hero h1 {
+  position: relative;
+  z-index: 1;
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: clamp(44px, 7.4vw, 118px);
+  line-height: 0.94;
+  letter-spacing: 0.005em;
+  text-transform: uppercase;
+  margin: 0 0 30px;
+  max-width: 14ch;
+}
+
+.page-hero-copy {
+  position: relative;
+  z-index: 3;
+  max-width: 46ch;
+}
+
+.page-hero-copy p {
+  font-size: 16.5px;
+  line-height: 1.75;
+  margin: 0 0 30px;
+  opacity: 0.92;
+}
+
+.page-hero-photo {
+  position: absolute;
+  top: -20px;
+  right: 0;
+  width: clamp(220px, 30vw, 420px);
+  height: clamp(280px, 46vh, 460px);
+  z-index: 0;
+}
+
+.page-hero-photo img,
+.page-hero-photo .img-placeholder { width: 100%; height: 100%; object-fit: cover; }
+
+@media (max-width: 1100px) {
+  .page-hero-photo { position: static; width: 100%; height: 320px; margin-bottom: 32px; }
+  .page-hero h1 { max-width: none; }
+}
+
+/* ============ BLOQUE DE TEXTO (asimétrico, off-center) ============ */
+.text-block { padding: 120px 44px; }
+
+.text-block-inner {
+  max-width: 1440px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: flex-start;
+}
+
+.text-block-content {
+  max-width: 56ch;
+  padding-left: 32px;
+  border-left: 2px solid var(--color-terracota);
+}
+
+.text-block .eyebrow { display: block; margin-bottom: 18px; }
+
+.text-block h2 {
+  font-family: var(--font-serif);
+  font-weight: 500;
+  font-size: clamp(28px, 3.2vw, 44px);
+  line-height: 1.08;
+  margin: 0 0 22px;
+}
+
+.text-block p {
+  font-size: 16.5px;
+  line-height: 1.75;
+  margin: 0;
+  opacity: 0.88;
+}
+
+/* ScrollReveal's own .scroll-reveal-text rule sets its own font-size/
+   line-height/weight (built for a display-sized passage) — override those
+   so the animated paragraph keeps this block's real body-copy typography.
+   Scoped two-class selectors so they reliably beat .scroll-reveal-text on
+   specificity regardless of stylesheet order. */
+.text-block .paragraph-scrollreveal { margin: 0; }
+
+.text-block .paragraph-scrollreveal-text {
+  font-size: 16.5px;
+  font-weight: 400;
+  line-height: 1.75;
+  opacity: 0.88;
+}
+
+.text-block.on-verde { background: var(--color-verde); color: var(--color-crema); }
+.text-block.on-crema { background: var(--color-crema); color: var(--color-verde); }
+.text-block.on-crema .eyebrow { color: var(--color-terracota); opacity: 1; }
+
+@media (max-width: 700px) {
+  .text-block { padding: 88px 24px; }
+  .text-block-content { padding-left: 20px; }
+}
+
+/* ============ TEXT PAIR (two supporting blocks side by side, 6/6) ============ */
+.text-pair { padding: 100px 0; }
+
+.text-pair-item {
+  padding-left: 28px;
+  border-left: 2px solid var(--color-terracota);
+}
+
+.text-pair-item .eyebrow { display: block; margin-bottom: 16px; }
+
+.text-pair-item p {
+  font-size: 16px;
+  line-height: 1.72;
+  margin: 0;
+  opacity: 0.88;
+  max-width: 46ch;
+}
+
+.text-pair.on-verde { background: var(--color-verde); color: var(--color-crema); }
+.text-pair.on-crema { background: var(--color-crema); color: var(--color-verde); }
+
+@media (max-width: 900px) {
+  .text-pair { padding: 84px 0; }
+}
+
+/* ============ NUESTRO COMPROMISO ============ */
+.compromiso {
+  background: var(--color-verde);
+  color: var(--color-crema);
+  padding: 110px 44px;
+}
+
+/* First section on a page (no hero above it) needs clearance for the fixed nav. */
+.compromiso-page-open {
+  padding-top: 190px;
+}
+
+@media (max-width: 780px) {
+  .compromiso-page-open { padding-top: 150px; }
+}
+
+.compromiso-inner {
+  max-width: 1440px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+  gap: 56px;
+  align-items: start;
+}
+
+.compromiso-text { padding-top: 40px; }
+
+.compromiso-text h2 {
+  font-family: var(--font-serif);
+  font-weight: 500;
+  font-size: clamp(34px, 4.4vw, 62px);
+  line-height: 1.04;
+  margin: 22px 0 28px;
+}
+
+.compromiso-text h2 em,
+.compromiso-text p .highlight {
+  font-style: italic;
+  color: var(--color-terracota-accent);
+}
+
+.compromiso-text p .highlight { font-style: normal; font-weight: 600; }
+
+.compromiso-text p {
+  font-size: 17px;
+  line-height: 1.72;
+  max-width: 48ch;
+  margin: 0;
+  opacity: 0.9;
+}
+
+.compromiso-photo { margin-top: 88px; }
+
+.compromiso-photo .frame {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 4/5;
+  overflow: hidden;
+}
+
+.compromiso-photo .frame img,
+.compromiso-photo .frame .img-placeholder { width: 100%; height: 100%; object-fit: cover; }
+
+.compromiso-photo .caption {
+  font-family: var(--font-sans), monospace;
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  opacity: 0.6;
+  margin-top: 12px;
+}
+
+@media (max-width: 900px) {
+  .compromiso-inner { grid-template-columns: 1fr; }
+  .compromiso-photo { margin-top: 40px; }
+}
+
+/* ============ SECTION HEAD (título + subtítulo, no centrado) ============ */
+.section-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  border-bottom: 1px solid rgba(29,67,49,0.2);
+  padding-bottom: 22px;
+  margin-bottom: 52px;
+  gap: 24px;
+  flex-wrap: wrap;
+}
+
+.section-head.on-verde { border-bottom-color: rgba(245,242,234,0.25); }
+
+.section-head h2 {
+  font-family: var(--font-serif);
+  font-weight: 500;
+  font-size: clamp(30px, 3.4vw, 46px);
+  line-height: 1.02;
+  margin: 0;
+}
+
+.section-head h2 em { font-style: italic; }
+
+.section-head .tag-sub {
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  font-size: 12px;
+  font-weight: 600;
+  opacity: 0.6;
+}
+
+.section-head .sub {
+  font-size: 14px;
+  line-height: 1.6;
+  max-width: 34ch;
+  opacity: 0.65;
+  margin: 0;
+}
+
+.section-pad { padding: 104px 44px; }
+
+@media (max-width: 700px) {
+  .section-pad { padding: 64px 24px; }
+}
+
+/* ============ BOARD ACCORDION (Alquiler de Tablas y Equipo) ============
+   Pure-CSS interactive accordion — no JS, no fixed widths. Every card is
+   flex:1 (equal thirds); :hover/:focus-within bumps flex-grow to 3, so
+   the ratio against the other two untouched flex-grow:1 cards becomes
+   3:1:1 — the hovered card takes 60% of the row, the rest compress to
+   20% each. flex-grow is animatable, so transitioning just that one
+   property drives the entire expand/contract motion. 650ms
+   cubic-bezier(0.16, 1, 0.3, 1) ("easeOutExpo") — fast off the mark, long
+   soft settle into place, no hard stop at the new width.
+
+   Description + button live in .board-card-reveal, ALWAYS mounted (never
+   conditionally rendered — see BoardAccordion.jsx) and hidden purely by
+   CSS via opacity + visibility, not display:none, specifically so both
+   properties are transitionable. See the mobile override below: touch
+   devices have no reliable :hover, so under 900px every card's full
+   content is shown permanently instead of being gated behind an
+   interaction most phones can't trigger. */
+.board-accordion {
+  display: flex;
+  width: 100%;
+  height: 70vh;
+}
+
+.board-card {
+  position: relative;
+  flex: 1 1 0%;
+  min-width: 0;
+  overflow: hidden;
+  cursor: pointer;
+  transition: flex-grow 0.65s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.board-card:hover,
+.board-card:focus-within,
+.board-card.is-active-touch { flex-grow: 3; }
+
+.board-card-media { position: absolute; inset: 0; }
+.board-card-media img,
+.board-card-media .img-placeholder { display: block; width: 100%; height: 100%; object-fit: cover; }
+
+.board-card-scrim {
+  position: absolute;
+  inset: 0;
+  background: rgba(15, 33, 23, 0.55);
+  transition: background 0.6s ease;
+}
+.board-card:hover .board-card-scrim,
+.board-card:focus-within .board-card-scrim,
+.board-card.is-active-touch .board-card-scrim { background: rgba(15, 33, 23, 0.72); }
+
+.board-card-content {
+  position: relative;
+  z-index: 1;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 32px;
+  color: var(--color-crema);
+}
+
+.board-card-tag {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--color-terracota-accent);
+}
+
+.board-card-title {
+  font-family: var(--font-serif);
+  font-weight: 600;
+  font-size: clamp(24px, 2.6vw, 38px);
+  margin: 12px 0 0;
+}
+
+/* Base (hidden) state — visibility is the piece that used to be missing:
+   opacity:0 alone still leaves the paragraph/button hit-testable and
+   reachable by keyboard/screen readers even while invisible. Transitioning
+   visibility together with opacity/transform (rather than snapping it) is
+   what lets it flip to "hidden" only once the fade-out finishes, and to
+   "visible" the instant the fade-in starts — the standard technique for
+   combining visibility with an animated property. */
+.board-card-reveal {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  margin-top: 20px;
+  max-width: 320px;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(20px);
+  transition: opacity 0.4s ease, transform 0.4s ease, visibility 0s linear 0.4s;
+}
+.board-card:hover .board-card-reveal,
+.board-card:focus-within .board-card-reveal,
+.board-card.is-active-touch .board-card-reveal {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+  /* 150ms head start for the card's own flex-grow expansion before the
+     text starts floating in — avoids the text colliding with the title
+     while the card is still mid-expansion. transition-delay applies to
+     ALL three listed properties, visibility included, so it only flips
+     to "visible" once the delay has elapsed too — no ghost hit-testable
+     content jumping the gun ahead of the fade. */
+  transition-delay: 0.15s;
+}
+
+.board-card-text { font-size: 14.5px; line-height: 1.6; margin: 0; opacity: 0.92; }
+
+@media (max-width: 900px) {
+  .board-accordion { flex-direction: column; height: auto; }
+  .board-card { flex: none; height: 55vh; }
+  .board-card:hover,
+  .board-card:focus-within,
+  .board-card.is-active-touch { flex-grow: 0; }
+  .board-card-reveal { opacity: 1; visibility: visible; transform: translateY(0); }
+}
+
+/* ============ GALERÍA (Nuestra Casa) — grid asimétrico 3 imágenes ============
+   Big vertical photo on a 7-column span, two small photos stacked on the
+   remaining 5 at DIFFERENT aspect ratios (never a matched pair) — same
+   7:5 split used elsewhere on the site, offset so no column starts on
+   the same line. */
+.galeria {
+  display: grid;
+  grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+  grid-template-rows: auto auto;
+  gap: 28px;
+  align-items: start;
+}
+
+.galeria-item { position: relative; overflow: hidden; }
+
+.galeria-item img, .galeria-item .img-placeholder { width: 100%; height: 100%; object-fit: cover; }
+
+.galeria-item .num {
+  position: absolute;
+  bottom: 14px; left: 14px;
+  font-family: var(--font-sans), monospace;
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  color: var(--color-crema);
+  background: rgba(15,33,23,0.55);
+  padding: 4px 9px;
+}
+
+.galeria-item.item-01 {
+  grid-row: 1 / 3;
+  aspect-ratio: 4/5;
+}
+.galeria-item.item-02 { aspect-ratio: 16/9; margin-top: 72px; }
+.galeria-item.item-03 { aspect-ratio: 4/3; }
+
+@media (max-width: 900px) {
+  .galeria { grid-template-columns: 1fr; }
+  .galeria-item.item-01 { grid-row: auto; aspect-ratio: 4/3; }
+  .galeria-item.item-02 { margin-top: 0; }
+}
+
+/* ============ SERVICIOS & COMODIDADES — interactive list ============
+   Full-width rows, large title, cursor-following floating image (see
+   ServicesGrid.jsx for the gsap.quickTo logic). */
+.services-list-section {
+  padding: 104px 0;
+  position: relative;
+}
+
+@media (max-width: 700px) {
+  .services-list-section { padding: 64px 0; }
+}
+
+.services-list {
+  border-top: 1px solid rgba(245, 242, 234, 0.18);
+}
+
+.service-row {
+  position: relative;
+  display: flex;
+  align-items: baseline;
+  gap: 28px;
+  padding: 30px 0;
+  border-bottom: 1px solid rgba(245, 242, 234, 0.18);
+  cursor: pointer;
+}
+
+.service-row-index {
+  flex: 0 0 auto;
+  font-family: var(--font-sans), monospace;
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  opacity: 0.5;
+  font-variant-numeric: tabular-nums;
+}
+
+.service-row-title {
+  flex: 0 0 auto;
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: clamp(28px, 4.2vw, 56px);
+  line-height: 1;
+  text-transform: uppercase;
+  letter-spacing: 0.005em;
+  margin: 0;
+  transition: color 0.3s ease, transform 0.3s ease;
+}
+
+.service-row-text {
+  flex: 1 1 auto;
+  min-width: 0;
+  max-width: 34ch;
+  margin: 0 0 0 auto;
+  padding-left: 24px;
+  font-size: 14.5px;
+  line-height: 1.6;
+  opacity: 0.7;
+  text-align: right;
+}
+
+.service-row-arrow {
+  flex: 0 0 auto;
+  font-size: 22px;
+  color: var(--color-terracota-accent);
+  opacity: 0;
+  transform: translateX(-6px);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.service-row:hover .service-row-title {
+  color: var(--color-terracota-accent);
+  transform: translateX(6px);
+}
+.service-row:hover .service-row-arrow { opacity: 1; transform: translateX(0); }
+
+@media (max-width: 700px) {
+  .service-row { flex-wrap: wrap; gap: 6px 16px; padding: 22px 0; }
+  .service-row-title { font-size: clamp(24px, 8vw, 34px); order: 1; }
+  .service-row-index { order: 0; }
+  .service-row-arrow { order: 2; margin-left: auto; }
+  .service-row-text {
+    order: 3;
+    flex: 1 1 100%;
+    max-width: none;
+    text-align: left;
+    padding-left: 0;
+    margin-left: 0;
+    margin-top: 4px;
+  }
+}
+
+/* Floating image layer — fixed to the viewport (not the row), so the
+   image can track the cursor anywhere on screen while a row is hovered,
+   not just within the row's own box. z-index sits above regular content
+   and the fixed nav (40) but below the WhatsApp FAB (60), which must
+   always stay reachable/on top. pointer-events:none throughout: this
+   layer is purely decorative, hover/click always goes to the row text
+   underneath it. */
+.service-image-layer {
+  position: fixed;
+  inset: 0;
+  z-index: 45;
+  pointer-events: none;
+}
+
+.service-image {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: min(340px, 26vw);
+  aspect-ratio: 4 / 5;
+  opacity: 0;
+  transform: scale(0.8);
+  pointer-events: none;
+  overflow: hidden;
+  box-shadow: 0 24px 60px rgba(15, 33, 23, 0.4);
+  will-change: transform, opacity;
+}
+
+.service-image img,
+.service-image .img-placeholder {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+@media (max-width: 900px) {
+  /* No hover on touch — the layer never activates, but hide it from
+     layout/AT entirely rather than relying only on opacity:0. */
+  .service-image-layer { display: none; }
+}
+
+/* ============ FEATURE SECTIONS (Desayuno / Relajación) ============
+   Edge-to-edge split-screen — no gap, no section padding/margin, no
+   max-width cap. Both columns use an explicit width:50% instead of the
+   flex:1/flex-basis:50% trick from the previous iteration: with zero gap,
+   the two 50% columns already sum to exactly 100% of the section, so
+   flex-grow/shrink never has to redistribute anything and the padding-
+   floor bug that trick was working around (padding on a flex-basis:0
+   item skewing the split) can't come up in the first place. min-width:0
+   stays as a cheap defensive guard against an unbreakable word or a very
+   narrow viewport forcing a shrink past 50%.
+
+   Zig-zag is still purely flex-direction: row vs row-reverse on
+   .feature-reverse — DOM order (image markup first, text second) never
+   changes, only the visual direction. */
+.feature-list { display: flex; flex-direction: column; }
+
+.feature-section {
+  display: flex;
+  height: 100vh;
+  width: 100%;
+}
+
+.feature-section.feature-reverse { flex-direction: row-reverse; }
+
+.feature-img-wrap {
+  width: 50%;
+  height: 100%;
+  min-width: 0;
+  position: relative;
+  overflow: hidden;
+}
+
+.feature-img-wrap img,
+.feature-img-wrap .img-placeholder {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.feature-text-wrap {
+  width: 50%;
+  height: 100%;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 0 10%;
+}
+
+.feature-eyebrow {
+  display: block;
+  margin-bottom: 20px;
+  color: var(--color-terracota);
+}
+
+.feature-title {
+  font-family: var(--font-serif);
+  font-weight: 600;
+  font-size: clamp(32px, 4vw, 56px);
+  margin: 0 0 20px;
+}
+
+.feature-text {
+  font-size: clamp(1rem, 1.4vw, 1.15rem);
+  line-height: 1.7;
+  margin: 0;
+  opacity: 0.82;
+  max-width: 46ch;
+}
+
+.feature-cta { margin-top: 28px; }
+
+@media (max-width: 900px) {
+  .feature-section,
+  .feature-section.feature-reverse {
+    flex-direction: column;
+    height: auto;
+  }
+  .feature-img-wrap { width: 100%; height: 50vh; }
+  .feature-text-wrap { width: 100%; padding: 48px 24px; }
+}
+
+/* ============ SURF TRIPS — sticky sidebar ============
+   Same pin technique as .sh-* (StickyHistoria): .trips-left is pinned by
+   GSAP for the scroll duration of .trips-right, released early so it
+   never overlaps the next section. Section is full-bleed; .trips-inner
+   carries the max-width + 40/60 grid, same container pattern used
+   throughout (see .sh-inner). */
+.trips-section {
+  background: var(--color-crema);
+  border-top: 1px solid rgba(29, 67, 49, 0.15);
+}
+
+.trips-inner {
+  display: grid;
+  grid-template-columns: minmax(0, 2fr) minmax(0, 3fr);
+  column-gap: 64px;
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 104px 44px;
+}
+
+.trips-left {
+  position: relative;
+  max-width: 42ch;
+}
+
+.trips-title {
+  font-family: var(--font-serif);
+  font-weight: 500;
+  font-size: clamp(32px, 3.4vw, 48px);
+  line-height: 1.05;
+  margin: 0 0 20px;
+}
+
+.trips-intro {
+  font-size: 17px;
+  line-height: 1.7;
+  margin: 0 0 32px;
+  opacity: 0.85;
+}
+
+.trip-card + .trip-card { margin-top: 64px; }
+
+.trip-card-media {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  overflow: hidden;
+}
+
+.trip-card-media img,
+.trip-card-media .img-placeholder { width: 100%; height: 100%; object-fit: cover; }
+
+.trip-card-title {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-weight: 500;
+  font-size: 22px;
+  margin: 20px 0 10px;
+}
+
+.trip-card-text {
+  font-size: 15px;
+  line-height: 1.7;
+  margin: 0;
+  opacity: 0.82;
+  max-width: 60ch;
+}
+
+@media (max-width: 900px) {
+  .trips-inner { grid-template-columns: 1fr; padding: 64px 24px; }
+  .trips-left { max-width: none; margin-bottom: 8px; }
+  .trip-card + .trip-card { margin-top: 48px; }
+}
+
+/* ============ WIDGET DE RESERVA RÁPIDA (TABS) ============
+   .booking-section: defensive stacking-context fix. The pinned column in
+   the Surf Trips section above (position:fixed while active) has no
+   explicit z-index of its own, which is normally fine — but if its
+   ScrollTrigger ever released later than intended, a fixed element with
+   z-index:auto can still end up painting over later siblings depending on
+   stacking context quirks. Forcing this section onto its own stacking
+   context with a clearly higher z-index makes it win regardless, so a
+   mistimed release upstream can never again block clicks on these tabs. */
+.booking-section {
+  position: relative;
+  z-index: 10;
+}
+
+.booking-widget {
+  background: var(--color-crema);
+  color: var(--color-verde);
+  padding: 8px;
+  max-width: 480px;
+}
+
+.booking-tabs {
+  display: flex;
+  border-bottom: 1px solid rgba(29,67,49,0.2);
+  margin-bottom: 24px;
+}
+
+.booking-tab {
+  flex: 1;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-family: var(--font-sans);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(29,67,49,0.55);
+  padding: 14px 8px;
+  border-bottom: 2px solid transparent;
+  background-color: transparent;
+  transition: color 0.25s ease, border-color 0.25s ease, border-bottom-width 0.25s ease, background-color 0.25s ease;
+}
+
+.booking-tab.active {
+  color: var(--color-terracota);
+  border-bottom-color: var(--color-terracota);
+  border-bottom-width: 3px;
+  background-color: rgba(143, 62, 30, 0.07);
+}
+
+/* Re-plays on every tab switch because BookingWidget.jsx keys .booking-panel
+   by the active tab id — React swaps in a fresh DOM node each time instead
+   of mutating the old one in place, which is what makes a CSS animation
+   (as opposed to a transition, which only fires on a property change on the
+   SAME node) replay on every switch instead of just once on first mount. */
+.booking-panel { padding: 4px 12px 16px; animation: bookingPanelEnter 0.4s ease both; }
+
+@keyframes bookingPanelEnter {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.booking-panel h3 {
+  font-family: var(--font-serif);
+  font-weight: 600;
+  font-size: 24px;
+  margin: 0 0 10px;
+}
+
+.booking-panel p {
+  font-size: 14.5px;
+  line-height: 1.6;
+  margin: 0 0 22px;
+  opacity: 0.82;
+}
+
+/* ============ BLOQUE REQUISITOS ============ */
+.requisitos {
+  background: var(--color-crema);
+  color: var(--color-verde);
+  padding: 40px 44px;
+  border-top: 1px solid rgba(29,67,49,0.15);
+  border-bottom: 1px solid rgba(29,67,49,0.15);
+}
+
+.requisitos-inner {
+  max-width: 1440px;
+  margin: 0 auto;
+  display: flex;
+  align-items: baseline;
+  gap: 28px;
+  flex-wrap: wrap;
+}
+
+.requisitos .tag {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--color-terracota);
+  flex-shrink: 0;
+}
+
+.requisitos p {
+  font-size: 15.5px;
+  line-height: 1.65;
+  margin: 0;
+  opacity: 0.85;
+  max-width: 70ch;
+}
+
+/* ============ CTA GENÉRICO (intermedio / final / whatsapp) ============ */
+.cta-block { padding: 88px 44px; }
+
+.cta-block-inner {
+  max-width: 1440px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 48px;
+  flex-wrap: wrap;
+}
+
+.cta-block h2 {
+  font-family: var(--font-serif);
+  font-weight: 500;
+  font-size: clamp(28px, 3.4vw, 48px);
+  line-height: 1.1;
+  margin: 0 0 14px;
+  max-width: 20ch;
+}
+
+.cta-block h2 em { font-style: italic; }
+
+.cta-block .cta-copy {
+  font-size: 15.5px;
+  line-height: 1.6;
+  margin: 0 0 18px;
+  opacity: 0.88;
+  max-width: 42ch;
+}
+
+.cta-block .cta-phone {
+  font-family: var(--font-sans), monospace;
+  font-size: 13px;
+  letter-spacing: 0.08em;
+  opacity: 0.8;
+  margin: 0 0 26px;
+}
+
+.cta-block .cta-phone a {
+  color: inherit;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  text-decoration-color: currentColor;
+  opacity: 0.7;
+  transition: opacity .2s ease;
+}
+.cta-block .cta-phone a:hover { opacity: 1; }
+
+.cta-block.on-terracota { background: var(--color-terracota); color: var(--color-crema); }
+.cta-block.on-verde { background: var(--color-verde); color: var(--color-crema); }
+.cta-block.on-crema { background: var(--color-crema); color: var(--color-verde); }
+
+/* ============ CTA IMMERSIVE — full-bleed parallax variant ============
+   Opt-in via CTABanner's `immersive` prop (see CTABanner.jsx). isolation
+   creates a self-contained stacking context so the z-index:0/1/2 layers
+   here can never leak above/below unrelated page chrome (nav, floating
+   WhatsApp button, etc). */
+.cta-block-immersive {
+  position: relative;
+  isolation: isolate;
+}
+
+.cta-block-media-clip {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+}
+
+/* Overscanned -70px at the TOP only, not both edges — the parallax tween
+   only ever moves the image DOWN (y: 0 → 60), so the gap it would
+   otherwise open is exclusively at the top edge as the image slides away
+   from it. 70px covers the 60px of travel plus a small safety margin. */
+.cta-block-media {
+  position: absolute;
+  top: -70px;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  will-change: transform;
+}
+
+.cta-block-media img,
+.cta-block-media .img-placeholder {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.cta-block-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  /* var(--color-terracota) #8F3E1E at 80% opacity */
+  background: rgba(143, 62, 30, 0.8);
+}
+
+.cta-block-immersive .cta-block-inner {
+  position: relative;
+  z-index: 2;
+}
+
+/* The mask only clips — h2/.cta-copy keep their own margin-bottom from
+   the base .cta-block h2 / .cta-block .cta-copy rules above, which still
+   apply here since those elements are descendants of .cta-block either
+   way. overflow:hidden naturally sizes the mask to include that trailing
+   margin (it doesn't get clipped), so spacing between title/copy/button
+   comes out identical to the non-immersive variant. */
+.cta-reveal-mask { overflow: hidden; }
+.cta-reveal-mask .cta-reveal-el { display: block; }
+
+/* ============ CTA MARQUEE — infinite scrolling band ============
+   Opt-in via CTABanner's `marquee` prop (see CTABanner.jsx). The section
+   itself provides the "contenedor de ancho completo que oculta el
+   desbordamiento" per spec; .marquee-viewport (absolutely positioned,
+   its own overflow:hidden) is a second layer of the same clip so the
+   sliding track's overflow is contained regardless of box-model edge
+   cases — belt and suspenders, not strictly redundant. */
+.cta-block-marquee {
+  position: relative;
+  overflow: hidden;
+  min-height: 260px;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.marquee-viewport {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+}
+
+.marquee-track {
+  display: flex;
+  white-space: nowrap;
+  will-change: transform;
+}
+
+/* prefers-reduced-motion fallback: one copy, centered, no loop/duplication
+   needed since nothing moves. */
+.marquee-track-static {
+  width: 100%;
+  justify-content: center;
+}
+
+.marquee-text {
+  display: inline-block;
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: clamp(48px, 9vw, 140px);
+  line-height: 1;
+  text-transform: uppercase;
+  letter-spacing: 0.01em;
+  color: var(--color-crema);
+  opacity: 0.16;
+}
+
+/* Sits above .marquee-viewport (z-index:0) purely by being a normal
+   in-flow flex child of .cta-block-marquee — positioned descendants with
+   z-index:auto paint AFTER normal in-flow content in the same stacking
+   context, so no explicit z-index is even required here, but one is set
+   anyway for clarity/robustness against future changes nearby. */
+.marquee-cta {
+  position: relative;
+  z-index: 2;
+}
+
+@media (max-width: 700px) {
+  .cta-block-marquee { min-height: 200px; }
+}
+
+/* ============ FOOTER ============ */
+.site-footer {
+  background: var(--color-negro);
+  color: var(--color-crema);
+  font-family: var(--font-sans);
+  overflow: hidden;
+}
+
+.footer-cols {
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 84px 44px 40px;
+  display: grid;
+  grid-template-columns: 1.4fr 1fr 1fr;
+  gap: 48px;
+}
+
+.footer-cols .brand { margin-bottom: 22px; }
+
+.footer-cols .brand img { height: 44px; width: auto; filter: brightness(0) invert(1); }
+
+.footer-cols .brand .logo-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px; height: 40px;
+  border: 1.5px solid currentColor;
+  border-radius: 50%;
+  font-family: var(--font-display);
+  font-size: 14px;
+}
+
+.footer-cols .tagline {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: 15.5px;
+  line-height: 1.6;
+  margin: 0 0 18px;
+  color: rgba(245,242,234,0.85);
+  max-width: 32ch;
+}
+
+.footer-cols p {
+  font-size: 14.5px;
+  line-height: 1.7;
+  margin: 0 0 6px;
+  color: rgba(245,242,234,0.72);
+}
+
+.footer-cols .col-title {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: rgba(245,242,234,0.5);
+  margin-bottom: 20px;
+}
+
+.footer-cols .col-links {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  font-size: 15px;
+}
+
+.foot-a { color: rgba(245,242,234,0.72); text-decoration: none; transition: color .2s; }
+.foot-a:hover { color: var(--color-crema); }
+
+.footer-cols .phone-link { color: rgba(245,242,234,0.72); text-decoration: none; transition: color .2s; }
+.footer-cols .phone-link:hover { color: var(--color-crema); }
+
+.footer-wordmark { position: relative; width: 100%; line-height: 0.72; margin-top: 24px; }
+
+.footer-wordmark div {
+  font-family: var(--font-display);
+  font-size: 27vw;
+  letter-spacing: 0.01em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  color: var(--color-crema);
+  margin: 0 0 -0.06em -0.04em;
+  transform: translateX(-1%);
+}
+
+.footer-bottom {
+  border-top: 1px solid rgba(245,242,234,0.14);
+  padding: 22px 44px;
+  max-width: 1440px;
+  margin: 0 auto;
+}
+
+.footer-bottom p {
+  font-size: 12px;
+  letter-spacing: 0.06em;
+  color: rgba(245,242,234,0.5);
+  margin: 0;
+}
+
+@media (max-width: 780px) {
+  .footer-cols { grid-template-columns: 1fr; }
+  .footer-wordmark div { font-size: 20vw; }
+}
+
+/* ============ FLOATING WHATSAPP CTA ============
+   Sticky conversion point independent of scroll position — terracota
+   (not WhatsApp-brand green) to stay inside the approved palette. */
+.floating-whatsapp {
+  position: fixed;
+  right: 22px;
+  bottom: 22px;
+  z-index: 60;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: var(--color-terracota);
+  color: var(--color-crema);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 6px 20px rgba(15, 33, 23, 0.28);
+  /* opacity must be in the list — without it the "fade-in" pops instantly
+     and only the transform eases. */
+  transition: background-color .25s ease, transform .25s ease, opacity .25s ease;
+  opacity: 0;
+  transform: translateY(12px) scale(0.9);
+}
+
+.floating-whatsapp.is-visible {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+.floating-whatsapp:hover {
+  background: var(--color-terracota-hover);
+  transform: translateY(-2px) scale(1.05);
+}
+
+@media (max-width: 600px) {
+  .floating-whatsapp { right: 16px; bottom: 16px; width: 50px; height: 50px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .floating-whatsapp { transition: background-color .25s ease; transform: none !important; }
+}
+
+/* ============ BLUR TEXT (React Bits BlurText, see components/ui/BlurText.jsx) ============
+   Plain-CSS equivalents of the vendored component's Tailwind classes
+   (display:flex/inline-block, will-change) — animation itself is driven
+   by `motion`, not CSS. */
+.blur-text { display: flex; flex-wrap: wrap; margin: 0; }
+.blur-text-segment { display: inline-block; will-change: transform, filter, opacity; }
+
+/* ============ SCROLL REVEAL (GSAP, see hooks/useScrollReveal.js) ============ */
+.reveal { opacity: 0; }
+
+/* ============ REDUCED MOTION ============
+   GSAP-driven animations are gated in JS (useScrollReveal, Hero parallax,
+   StaggeredMenu); this covers the plain-CSS hover/pulse motion. */
+@media (prefers-reduced-motion: reduce) {
+  .page-enter { animation: none !important; }
+  .board-card, .board-card-scrim, .board-card-reveal {
+    transition: none !important;
+  }
+  .booking-panel { animation: none !important; }
+  .aw-dropdown-menu { animation: none !important; }
+  .booking-tab { transition: none !important; }
+  .btn-terracota span, .btn-outline-crema span, .btn-outline-verde span {
+    transition: none !important;
+  }
+  .btn-terracota:hover span, .btn-outline-crema:hover span,
+  .btn-outline-verde:hover span {
+    transform: none !important;
+  }
+  .reveal { opacity: 1 !important; }
+}
+
+
+/* ============================================================
+   STICKY HISTORIA — StickyHistoria.jsx
+   Split layout: giant pinned title left / flowing content right.
+   The left column is NOT position:sticky in CSS — GSAP ScrollTrigger
+   handles the pin so it works reliably through Lenis smoothed scroll
+   (CSS sticky and Lenis can disagree on reported positions).
+   ============================================================ */
+
+/* Full-bleed wrapper: background fills edge-to-edge, no width constraints */
+.sh-section {
+  width: 100%;
+}
+
+/* Background skins live on the section so the colour is truly full-bleed */
+.sh-section.on-verde { background: var(--color-verde); color: var(--color-crema); }
+.sh-section.on-crema { background: var(--color-crema); color: var(--color-verde); }
+
+/* Inner wrapper: replicates the site's container pattern — grid + max-width
+   + lateral padding. Text stays aligned with every other section. */
+.sh-inner {
+  display: grid;
+  grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+  column-gap: 80px;
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 0 44px;
+}
+
+/* Left wrapper that ScrollTrigger pins — must have position:relative so
+   GSAP can inject the spacer element adjacent to it in the DOM. */
+.sh-left {
+  position: relative;
+  padding-top: 120px;
+  padding-bottom: 80px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.sh-eyebrow {
+  display: block;
+  margin-bottom: 32px;
+  opacity: 0.7;
+}
+
+.sh-title {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: clamp(52px, 6.5vw, 108px);
+  line-height: 0.93;
+  letter-spacing: 0.004em;
+  text-transform: uppercase;
+  margin: 0;
+}
+
+/* Decorative terracota rule below the display title */
+.sh-rule {
+  width: 2px;
+  height: 64px;
+  background: var(--color-terracota);
+  margin-top: 48px;
+}
+
+/* Right column — this is the scrollable part */
+.sh-right {
+  padding-top: 120px;
+  padding-bottom: 120px;
+  display: flex;
+  flex-direction: column;
+  gap: 64px;
+}
+
+.sh-block-eyebrow {
+  display: block;
+  margin-bottom: 20px;
+  color: var(--color-terracota);
+  opacity: 1;
+}
+
+.sh-block-text {
+  font-size: 17px;
+  line-height: 1.78;
+  margin: 0;
+  opacity: 0.88;
+  max-width: 54ch;
+}
+
+.sh-block-scrollreveal { margin: 0; }
+
+/* Two-class selector on purpose: .scroll-reveal-text (ScrollReveal.css)
+   ships font-weight:600 + a much larger clamp(), and as a single-class
+   rule it ties with a single-class override on specificity — whichever
+   file Vite happens to emit later in the CSS wins that tie. Qualifying
+   with the parent block class outranks it unconditionally, so this
+   paragraph stays light or Anton's heavy title. */
+.sh-right .sh-block-scrollreveal-text {
+  color: var(--color-crema);
+  font-weight: 400;
+  font-size: clamp(1.2rem, 2.4vw, 2rem);
+  line-height: 1.6;
+  opacity: 0.88;
+  max-width: 54ch;
+}
+
+@media (max-width: 900px) {
+  .sh-inner {
+    grid-template-columns: 1fr;
+    padding: 80px 24px;
+  }
+  .sh-left  { padding-top: 0; padding-bottom: 40px; }
+  .sh-right { padding-top: 0; padding-bottom: 80px; gap: 48px; }
+  .sh-title { font-size: clamp(42px, 10vw, 72px); }
+}
+
+
+/* ============================================================
+   HORIZONTAL GALLERY — HorizontalGallery.jsx
+   Outer wrapper is pinned by GSAP while the inner track translates
+   on the X axis. Three rules are MANDATORY for correct behaviour:
+   1. .hg-outer: overflow:hidden  — hides the overflowing track
+   2. .hg-track: no max-width      — must grow to fit all cards
+   3. .hg-card: fixed vw width     — makes travel distance predictable
+   ============================================================ */
+
+.hg-section {
+  background: var(--color-verde);
+  color: var(--color-crema);
+}
+
+/* Header sits above the pinned zone and scrolls past before pin fires */
+.hg-header {
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 104px 44px 64px;
+}
+
+/* The element GSAP pins.
+   overflow:hidden is CRITICAL — prevents a horizontal scrollbar from
+   appearing when the track is translated beyond the viewport edge. */
+.hg-outer {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+/* Horizontal row — grows freely beyond the viewport.
+   GSAP's x-tween drives all movement; do NOT add max-width here. */
+.hg-track {
+  display: flex;
+  align-items: stretch;
+  gap: 28px;
+  padding: 0 44px;
+  will-change: transform;
+}
+
+/* Each card: viewport-relative fixed width */
+.hg-card {
+  flex: 0 0 auto;
+  width: clamp(280px, 58vw, 820px);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.hg-card-img {
+  flex: 1;
+  position: relative;
+  overflow: hidden;
+  height: clamp(340px, 65vh, 680px);
+}
+
+.hg-card-img img,
+.hg-card-img .img-placeholder {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.hg-card-meta {
+  display: flex;
+  align-items: baseline;
+  gap: 16px;
+  padding: 0 4px;
+}
+
+.hg-card-num {
+  font-family: var(--font-sans), monospace;
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  opacity: 0.5;
+}
+
+.hg-card-caption {
+  font-size: 13px;
+  line-height: 1.5;
+  margin: 0;
+  opacity: 0.72;
+  max-width: 36ch;
+}
+
+/* Scroll-progress indicator — purely decorative */
+.hg-progress {
+  position: absolute;
+  bottom: 32px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 2;
+}
+
+.hg-progress-track {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.hg-progress-dot {
+  display: block;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--color-crema);
+  opacity: 0.35;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+/* Mobile: vertical stack, no horizontal animation */
+@media (max-width: 900px) {
+  .hg-header { padding: 64px 24px 40px; }
+
+  .hg-outer {
+    height: auto;
+    overflow: visible; /* track not translated; clip not needed */
+  }
+
+  .hg-track {
+    flex-direction: column;
+    padding: 0 24px 64px;
+    gap: 24px;
+  }
+
+  .hg-card  { width: 100%; }
+  .hg-card-img { height: clamp(240px, 56vw, 420px); }
+  .hg-progress  { display: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hg-card { transform: none !important; opacity: 1 !important; }
+}
+

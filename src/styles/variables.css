@@ -1,0 +1,22 @@
+@import url('https://fonts.googleapis.com/css2?family=Anton&family=Archivo:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,500;1,600&display=swap');
+
+:root {
+  --color-verde: #1D4331;
+  --color-crema: #F5F2EA;
+  --color-terracota: #8F3E1E;
+  --color-terracota-hover: #7a3418;
+  --color-negro: #0F2117;
+  --color-terracota-accent: #C9683F;
+
+  --font-display: 'Anton', sans-serif;
+  --font-serif: 'Playfair Display', serif;
+  --font-sans: 'Archivo', sans-serif;
+
+  /* legacy aliases kept during the HTML->React migration so ported markup
+     that still references --verde / --crema etc. keeps working */
+  --verde: var(--color-verde);
+  --crema: var(--color-crema);
+  --terracota: var(--color-terracota);
+  --terracota-hover: var(--color-terracota-hover);
+  --negro: var(--color-negro);
+}
