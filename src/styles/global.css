@@ -226,6 +226,15 @@ img { display: block; max-width: 100%; }
   will-change: transform;
 }
 
+/* Hero.jsx never creates the parallax scrub tween below 769px (see the
+   gsap.matchMedia() split there) — matching that here so mobile doesn't
+   keep a GPU layer reserved for a transform that's never written. */
+@media (max-width: 768px) {
+  .hero-full-bg {
+    will-change: auto;
+  }
+}
+
 .hero-full-bg img,
 .hero-full-bg .img-placeholder { width: 100%; height: 100%; object-fit: cover; }
 
@@ -448,6 +457,18 @@ img { display: block; max-width: 100%; }
 
 .aw-calendar-popover-down { top: calc(100% + 12px); }
 .aw-calendar-popover-up { bottom: calc(100% + 12px); }
+
+/* Shown for one frame or so on the very first open, while react-day-picker's
+   lazy chunk + stylesheet fetch (see DateRangePicker.jsx) — cached after
+   that, so subsequent opens never show it. */
+.aw-calendar-loading {
+  padding: 40px 20px;
+  min-width: 280px;
+  text-align: center;
+  color: var(--color-verde);
+  opacity: 0.6;
+  font-size: 0.9rem;
+}
 
 /* ---- Theming hooks — react-day-picker v10 exposes its whole palette as
    CSS custom properties on .rdp-root, so no selector-specificity fights
@@ -1190,7 +1211,17 @@ img { display: block; max-width: 100%; }
   pointer-events: none;
   overflow: hidden;
   box-shadow: 0 24px 60px rgba(15, 33, 23, 0.4);
-  will-change: transform, opacity;
+}
+
+/* will-change scoped to the same (hover: hover) and (pointer: fine) gate
+   ServicesGrid.jsx's own cursor-follow JS uses — there's one .service-image
+   per row (up to 6 on Home), all mounted at once; on touch devices the
+   hover-follow tweens never run at all, so a blanket will-change there
+   would just reserve N GPU compositor layers for zero benefit. */
+@media (hover: hover) and (pointer: fine) {
+  .service-image {
+    will-change: transform, opacity;
+  }
 }
 
 .service-image img,
@@ -1558,6 +1589,14 @@ img { display: block; max-width: 100%; }
   will-change: transform;
 }
 
+/* CTABanner.jsx never creates the parallax scrub tween below 769px (see
+   its gsap.matchMedia() split) — same reasoning as .hero-full-bg above. */
+@media (max-width: 768px) {
+  .cta-block-media {
+    will-change: auto;
+  }
+}
+
 .cta-block-media img,
 .cta-block-media .img-placeholder {
   width: 100%;
@@ -1757,10 +1796,14 @@ img { display: block; max-width: 100%; }
 
 /* ============ BLUR TEXT (React Bits BlurText, see components/ui/BlurText.jsx) ============
    Plain-CSS equivalents of the vendored component's Tailwind classes
-   (display:flex/inline-block, will-change) — animation itself is driven
-   by `motion`, not CSS. */
+   (display:flex/inline-block) — animation itself is driven by `motion`,
+   not CSS. No blanket will-change here on purpose: animateBy="letters"
+   can split a short headline into a dozen+ simultaneous .blur-text-segment
+   spans, and a static will-change on the class would reserve a GPU
+   compositor layer for every one of them at once (real memory cost on
+   mobile) whether or not it's actually mid-animation. */
 .blur-text { display: flex; flex-wrap: wrap; margin: 0; }
-.blur-text-segment { display: inline-block; will-change: transform, filter, opacity; }
+.blur-text-segment { display: inline-block; }
 
 /* ============ SCROLL REVEAL (GSAP, see hooks/useScrollReveal.js) ============ */
 .reveal { opacity: 0; }

@@ -35,6 +35,20 @@ export default function BlurText({
   const [inView, setInView] = useState(false)
   const ref = useRef(null)
 
+  // Not a GSAP hook (this is Framer Motion), so no gsap.matchMedia() here —
+  // same intent as the GSAP components though: filter:blur is a real
+  // paint/composite cost, skipped on mobile in favor of a plain fade.
+  const [isMobile, setIsMobile] = useState(
+    () => typeof window !== 'undefined' && window.matchMedia('(max-width: 768px)').matches,
+  )
+  useEffect(() => {
+    const mq = window.matchMedia('(max-width: 768px)')
+    const update = () => setIsMobile(mq.matches)
+    update()
+    mq.addEventListener('change', update)
+    return () => mq.removeEventListener('change', update)
+  }, [])
+
   useEffect(() => {
     if (!ref.current) return undefined
     const observer = new IntersectionObserver(
@@ -50,18 +64,20 @@ export default function BlurText({
     return () => observer.disconnect()
   }, [threshold, rootMargin])
 
-  const defaultFrom = useMemo(
-    () => (direction === 'top' ? { filter: 'blur(10px)', opacity: 0, y: -50 } : { filter: 'blur(10px)', opacity: 0, y: 50 }),
-    [direction],
-  )
+  const defaultFrom = useMemo(() => {
+    const y = direction === 'top' ? -50 : 50
+    return isMobile ? { opacity: 0, y } : { filter: 'blur(10px)', opacity: 0, y }
+  }, [direction, isMobile])
 
-  const defaultTo = useMemo(
-    () => [
-      { filter: 'blur(5px)', opacity: 0.5, y: direction === 'top' ? 5 : -5 },
-      { filter: 'blur(0px)', opacity: 1, y: 0 },
-    ],
-    [direction],
-  )
+  const defaultTo = useMemo(() => {
+    const midY = direction === 'top' ? 5 : -5
+    return isMobile
+      ? [{ opacity: 0.5, y: midY }, { opacity: 1, y: 0 }]
+      : [
+          { filter: 'blur(5px)', opacity: 0.5, y: midY },
+          { filter: 'blur(0px)', opacity: 1, y: 0 },
+        ]
+  }, [direction, isMobile])
 
   const fromSnapshot = animationFrom ?? defaultFrom
   const toSnapshots = animationTo ?? defaultTo

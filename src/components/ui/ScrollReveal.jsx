@@ -51,70 +51,67 @@ export default function ScrollReveal({
     if (!el) return undefined
 
     const scroller = scrollContainerRef && scrollContainerRef.current ? scrollContainerRef.current : window
-    const triggers = []
     const wordElements = el.querySelectorAll('.word')
+    const mm = gsap.matchMedia()
 
-    // Write every initial state up front (gsap.set, applied synchronously)
-    // before any ScrollTrigger.create() runs its own layout read. Doing this
-    // as three separate gsap.fromTo() calls interleaved read-after-write
-    // three times in a row, which is what forces the synchronous reflow
-    // Lighthouse flags — batching writes then reads avoids it.
-    gsap.set(el, { transformOrigin: '0% 50%', rotate: baseRotation })
-    gsap.set(wordElements, { opacity: baseOpacity, willChange: 'opacity' })
-    if (enableBlur) {
-      gsap.set(wordElements, { filter: `blur(${blurStrength}px)` })
-    }
+    // Desktop: the full effect — rotation + per-word opacity + blur, all
+    // scrub-tied to scroll (recomputed every scroll frame). Writes are
+    // batched via gsap.set() before any ScrollTrigger.create() read, so
+    // the three tweens don't interleave read/write and force reflow.
+    mm.add('(min-width: 769px)', () => {
+      gsap.set(el, { transformOrigin: '0% 50%', rotate: baseRotation })
+      gsap.set(wordElements, { opacity: baseOpacity, willChange: 'opacity' })
+      if (enableBlur) {
+        gsap.set(wordElements, { filter: `blur(${blurStrength}px)` })
+      }
 
-    const rotationTween = gsap.to(el, {
-      ease: 'none',
-      rotate: 0,
-      scrollTrigger: {
-        trigger: el,
-        scroller,
-        start: 'top bottom',
-        end: rotationEnd,
-        scrub: true,
-      },
-    })
-    if (rotationTween.scrollTrigger) triggers.push(rotationTween.scrollTrigger)
-
-    const opacityTween = gsap.to(wordElements, {
-      ease: 'none',
-      opacity: 1,
-      stagger: 0.05,
-      scrollTrigger: {
-        trigger: el,
-        scroller,
-        start: 'top bottom-=20%',
-        end: wordAnimationEnd,
-        scrub: true,
-      },
-    })
-    if (opacityTween.scrollTrigger) triggers.push(opacityTween.scrollTrigger)
-
-    let blurTween
-    if (enableBlur) {
-      blurTween = gsap.to(wordElements, {
+      const rotationTween = gsap.to(el, {
         ease: 'none',
-        filter: 'blur(0px)',
-        stagger: 0.05,
-        scrollTrigger: {
-          trigger: el,
-          scroller,
-          start: 'top bottom-=20%',
-          end: wordAnimationEnd,
-          scrub: true,
-        },
+        rotate: 0,
+        scrollTrigger: { trigger: el, scroller, start: 'top bottom', end: rotationEnd, scrub: true },
       })
-      if (blurTween.scrollTrigger) triggers.push(blurTween.scrollTrigger)
-    }
 
-    return () => {
-      triggers.forEach((st) => st.kill())
-      rotationTween.kill()
-      opacityTween.kill()
-      blurTween?.kill()
-    }
+      const opacityTween = gsap.to(wordElements, {
+        ease: 'none',
+        opacity: 1,
+        stagger: 0.05,
+        scrollTrigger: { trigger: el, scroller, start: 'top bottom-=20%', end: wordAnimationEnd, scrub: true },
+      })
+
+      let blurTween
+      if (enableBlur) {
+        blurTween = gsap.to(wordElements, {
+          ease: 'none',
+          filter: 'blur(0px)',
+          stagger: 0.05,
+          scrollTrigger: { trigger: el, scroller, start: 'top bottom-=20%', end: wordAnimationEnd, scrub: true },
+        })
+      }
+
+      return () => {
+        rotationTween.kill()
+        opacityTween.kill()
+        blurTween?.kill()
+      }
+    })
+
+    // Mobile: no rotation, no blur, no scrub — scrub recalculates on every
+    // scroll frame and blur is an expensive paint/composite, exactly what
+    // chokes the main thread on phones. A single once-off opacity fade
+    // covers the whole "reveals as it enters" intent at near-zero cost.
+    mm.add('(max-width: 768px)', () => {
+      gsap.set(wordElements, { opacity: 0 })
+      const tween = gsap.to(wordElements, {
+        opacity: 1,
+        duration: 0.5,
+        ease: 'power1.out',
+        scrollTrigger: { trigger: el, scroller, start: 'top 88%', once: true },
+      })
+
+      return () => tween.kill()
+    })
+
+    return () => mm.revert()
   }, [scrollContainerRef, enableBlur, baseRotation, baseOpacity, rotationEnd, wordAnimationEnd, blurStrength])
 
   return (

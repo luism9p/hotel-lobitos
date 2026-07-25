@@ -72,16 +72,21 @@ export default function CTABanner({
         // is anywhere in the viewport. .cta-block-media is overscanned
         // -70px at the top (see CSS) specifically to cover this 0→60px
         // downward travel with zero gap at the top edge.
+        // Scrub-tied parallax recomputes every scroll frame — real
+        // main-thread cost — so it's never created below 769px, not just
+        // visually suppressed.
         if (mediaRef.current && !reduce) {
-          gsap.to(mediaRef.current, {
-            y: 60,
-            ease: 'none',
-            scrollTrigger: {
-              trigger: sectionRef.current,
-              start: 'top bottom',
-              end: 'bottom top',
-              scrub: true,
-            },
+          gsap.matchMedia().add('(min-width: 769px)', () => {
+            gsap.to(mediaRef.current, {
+              y: 60,
+              ease: 'none',
+              scrollTrigger: {
+                trigger: sectionRef.current,
+                start: 'top bottom',
+                end: 'bottom top',
+                scrub: true,
+              },
+            })
           })
         }
 

@@ -37,7 +37,14 @@ export default function Hero({
     if (variant !== 'centered') return undefined
 
     const ctx = gsap.context(() => {
-      if (photoRef.current) {
+      if (!photoRef.current) return
+
+      const mm = gsap.matchMedia()
+
+      // Continuous scrub parallax is real per-frame main-thread work while
+      // scrolling — on mobile that's exactly what chokes the thread, so it
+      // never gets created there at all (not just visually disabled).
+      mm.add('(min-width: 769px)', () => {
         gsap.to(photoRef.current, {
           y: 40,
           ease: 'none',
@@ -48,7 +55,7 @@ export default function Hero({
             scrub: true,
           },
         })
-      }
+      })
     }, heroRef)
 
     return () => ctx.revert()

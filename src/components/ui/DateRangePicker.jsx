@@ -1,6 +1,15 @@
-import { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react'
-import { DayPicker } from 'react-day-picker'
-import 'react-day-picker/style.css'
+import { Suspense, lazy, useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react'
+
+// react-day-picker (JS + its stylesheet) is only fetched once the user
+// actually opens the calendar (see `open`, guarding the popover below) —
+// not on initial page load, where its DOM would otherwise sit hidden but
+// its JS would still have shipped and executed on the main thread for
+// zero immediate benefit.
+const DayPicker = lazy(async () => {
+  await import('react-day-picker/style.css')
+  const mod = await import('react-day-picker')
+  return { default: mod.DayPicker }
+})
 
 function toDateOnly(date) {
   return new Date(date.getFullYear(), date.getMonth(), date.getDate())
@@ -180,16 +189,18 @@ export default function DateRangePicker({ checkIn, checkOut, onChange }) {
           aria-label="Selecciona check-in y check-out"
           data-lenis-prevent
         >
-          <DayPicker
-            mode="range"
-            selected={range}
-            onSelect={handleSelect}
-            disabled={isDisabledDay}
-            defaultMonth={range.from || today}
-            numberOfMonths={2}
-            weekStartsOn={1}
-            min={1}
-          />
+          <Suspense fallback={<div className="aw-calendar-loading">Cargando calendario…</div>}>
+            <DayPicker
+              mode="range"
+              selected={range}
+              onSelect={handleSelect}
+              disabled={isDisabledDay}
+              defaultMonth={range.from || today}
+              numberOfMonths={2}
+              weekStartsOn={1}
+              min={1}
+            />
+          </Suspense>
         </div>
       ) : null}
     </div>
