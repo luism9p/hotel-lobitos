@@ -52,7 +52,14 @@ export default function BoardAccordion({ items }) {
           onClick={isTouch ? () => handleToggle(i) : undefined}
         >
           <div className="board-card-media">
-            <Photo src={item.image} alt={item.imageAlt} placeholder={item.placeholder} />
+            <Photo
+              src={item.image}
+              alt={item.imageAlt}
+              placeholder={item.placeholder}
+              width={item.imageWidth}
+              height={item.imageHeight}
+              loading="lazy"
+            />
           </div>
           <div className="board-card-scrim" />
           <div className="board-card-content">

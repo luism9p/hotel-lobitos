@@ -72,7 +72,14 @@ export default function TheatricalReveal({ items }) {
       {items.map((item, i) => (
         <section key={item.title} className={`feature-section${i % 2 === 1 ? ' feature-reverse' : ''}`}>
           <div className="feature-img-wrap">
-            <Photo src={item.image} alt={item.imageAlt} placeholder={item.placeholder} />
+            <Photo
+              src={item.image}
+              alt={item.imageAlt}
+              placeholder={item.placeholder}
+              width={item.imageWidth}
+              height={item.imageHeight}
+              loading="lazy"
+            />
           </div>
           <div className="feature-text-wrap">
             {item.eyebrow ? <span className="feature-eyebrow eyebrow">{item.eyebrow}</span> : null}

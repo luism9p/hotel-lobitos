@@ -10,10 +10,10 @@ import useScrollReveal from '../hooks/useScrollReveal.js'
 import f2 from '../assets/images/hotel/f2.avif'
 import fotoBote from '../assets/images/shared/foto-bote.avif'
 import fotoBuceando from '../assets/images/surf/foto-buceando.avif'
-import softTopPhoto from '../assets/images/surf/soft-top.png'
-import funboardPhoto from '../assets/images/surf/funboard.png'
-import shortboardPhoto from '../assets/images/surf/shortboard.png'
-import exploracionPhoto from '../assets/images/surf/exploracion.png'
+import softTopPhoto from '../assets/images/surf/soft-top.webp'
+import funboardPhoto from '../assets/images/surf/funboard.webp'
+import shortboardPhoto from '../assets/images/surf/shortboard.webp'
+import exploracionPhoto from '../assets/images/surf/exploracion.webp'
 
 const WA_HREF = 'https://wa.me/51974578082'
 
@@ -29,6 +29,8 @@ export default function SurfAcademy() {
         title="Domina las Olas de Lobitos con Expertos"
         image={f2}
         imageAlt="Surfista dentro de una ola en Lobitos"
+        imageWidth={1240}
+        imageHeight={828}
         description="En Surf Academy Lobitos, transformamos tu pasión en técnica. Ya seas principiante o busques perfeccionar tu estilo, nuestros instructores locales te guiarán en las mejores izquierdas del mundo con un enfoque personalizado y aventurero."
         cta={{ label: 'Ver Clases', href: '#tablas', arrow: '→' }}
       />
@@ -44,6 +46,8 @@ export default function SurfAcademy() {
               {
                 image: softTopPhoto,
                 imageAlt: 'Tabla Soft-Top con huella de mano en la arena, frente al mar en Lobitos',
+                imageWidth: 2816,
+                imageHeight: 1536,
                 tag: 'Principiante',
                 title: 'Soft-Top',
                 text: 'Tablas estables y seguras, perfectas para tus primeras olas en las espumas de Lobitos.',
@@ -53,6 +57,8 @@ export default function SurfAcademy() {
               {
                 image: funboardPhoto,
                 imageAlt: 'Tabla Funboard apoyada en la caseta de Lobitos Surf Academy',
+                imageWidth: 2816,
+                imageHeight: 1536,
                 tag: 'Intermedio',
                 title: 'Funboard',
                 text: 'Ideal para mejorar tu técnica y empezar a correr la pared de la ola con mayor control.',
@@ -62,6 +68,8 @@ export default function SurfAcademy() {
               {
                 image: shortboardPhoto,
                 imageAlt: 'Tabla Shortboard de alto rendimiento frente a una ola al atardecer',
+                imageWidth: 2816,
+                imageHeight: 1536,
                 tag: 'Avanzado',
                 title: 'Shortboard',
                 text: 'Tablas de alto rendimiento para quienes buscan velocidad y maniobras radicales.',
@@ -85,18 +93,24 @@ export default function SurfAcademy() {
             text: 'Experiencias de exploración marina y costera que incluyen apnea, buceo en arrecifes y actividades de inmersión con protocolos de seguridad completos. Se integran también zonas de inmersión tipo "casa submarina", orientadas a la conexión directa con el ecosistema marino.',
             image: fotoBuceando,
             imageAlt: 'Buzo explorando el arrecife en Lobitos',
+            imageWidth: 601,
+            imageHeight: 579,
           },
           {
             title: 'Rutas costeras',
             text: 'Rutas guiadas hacia destinos emblemáticos del litoral norte y norte-centro del Perú como Pacasmayo, Poemape, Chicama, Negritos (sus múltiples playas), Lobitos (sus seis playas), Órganos, El Ñuro, Cabo Blanco, Punta Sal y Máncora, entre otros escenarios naturales de alto valor paisajístico.',
             image: fotoBote,
             imageAlt: 'Yacht tour en la costa de Lobitos',
+            imageWidth: 601,
+            imageHeight: 579,
           },
           {
             title: 'Exploración terrestre',
             text: 'Caminatas por zonas costeras, ingreso a cuevas, descubrimiento de playas ocultas y recorridos por caseríos locales, donde es posible observar la fauna regional y su entorno natural. Se integran también actividades de pesca recreativa.',
             image: exploracionPhoto,
             imageAlt: 'Caminante explorando cuevas costeras y caletas de pescadores en Lobitos',
+            imageWidth: 2752,
+            imageHeight: 1536,
           },
         ]}
         ctaLabel="Reservar Tour"

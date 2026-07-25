@@ -126,7 +126,14 @@ export default function HorizontalGallery({ title, sub, onVerde = false, items }
           {items.map((item, i) => (
             <div className="hg-card" key={item.image || item.placeholder || i}>
               <div className="hg-card-img">
-                <Photo src={item.image} alt={item.alt} placeholder={item.placeholder} />
+                <Photo
+                  src={item.image}
+                  alt={item.alt}
+                  placeholder={item.placeholder}
+                  width={item.imageWidth}
+                  height={item.imageHeight}
+                  loading="lazy"
+                />
               </div>
               <div className="hg-card-meta">
                 <span className="hg-card-num">{String(i + 1).padStart(2, '0')}</span>

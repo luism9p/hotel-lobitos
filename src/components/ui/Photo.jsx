@@ -3,10 +3,41 @@
  * site's striped "photo pending" placeholder labeled with the path the
  * image should eventually live at. Used by every section that has an
  * image slot (Hero, CommitmentBlock, gallery, editorial, board cards).
+ *
+ * `width`/`height` are the image's real natural dimensions (not its
+ * rendered CSS size) — the browser uses their ratio to reserve layout
+ * space before the file loads, which is what actually prevents CLS; the
+ * element still renders at whatever size its CSS gives it (almost always
+ * `width:100%; height:100%; object-fit:cover` in this codebase).
+ *
+ * `fetchPriority` and `loading` are two ends of the same choreography and
+ * deliberately not both wired to a default — a caller sets `fetchPriority
+ * ="high"` for the LCP candidate (hero photo, parallax banner) and
+ * `loading="lazy"` for anything below the fold, never both on the same
+ * image.
  */
-export default function Photo({ src, alt = '', placeholder, className = '', loading }) {
+export default function Photo({
+  src,
+  alt = '',
+  placeholder,
+  className = '',
+  loading,
+  width,
+  height,
+  fetchPriority,
+}) {
   if (src) {
-    return <img src={src} alt={alt} className={className} loading={loading} />
+    return (
+      <img
+        src={src}
+        alt={alt}
+        className={className}
+        loading={loading}
+        width={width}
+        height={height}
+        fetchPriority={fetchPriority}
+      />
+    )
   }
   return (
     <div className={`img-placeholder ${className}`.trim()}>

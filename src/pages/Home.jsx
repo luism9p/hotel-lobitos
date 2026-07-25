@@ -5,17 +5,17 @@ import CTABanner from '../components/sections/CTABanner.jsx'
 import HorizontalGallery from '../components/sections/HorizontalGallery.jsx'
 import ServicesGrid from '../components/sections/ServicesGrid.jsx'
 import useScrollReveal from '../hooks/useScrollReveal.js'
-import f1 from '../assets/images/hero/f1.png'
-import casa1 from '../assets/images/hotel/casa-01.jpg'
-import casa2 from '../assets/images/hotel/casa-02.jpg'
-import casa3 from '../assets/images/hotel/casa-03.jpg'
+import f1 from '../assets/images/hero/f1.webp'
+import casa1 from '../assets/images/hotel/casa-01.webp'
+import casa2 from '../assets/images/hotel/casa-02.webp'
+import casa3 from '../assets/images/hotel/casa-03.webp'
 import surfPhoto from '../assets/images/surf/foto-buceando.avif'
 import terrazaPhoto from '../assets/images/hotel/f2.avif'
-import roomPhoto from '../assets/images/_incoming/room-spare-1.jpg'
-import wifiPhoto from '../assets/images/hotel/foto-wifi.png'
-import movilidadPhoto from '../assets/images/hotel/foto-movilidad.png'
-import estacionamientoPhoto from '../assets/images/hotel/estacionamiento.png'
-import refugioPhoto from '../assets/images/hotel/refugio-lobitos.png'
+import roomPhoto from '../assets/images/_incoming/room-spare-1.webp'
+import wifiPhoto from '../assets/images/hotel/foto-wifi.webp'
+import movilidadPhoto from '../assets/images/hotel/foto-movilidad.webp'
+import estacionamientoPhoto from '../assets/images/hotel/estacionamiento.webp'
+import refugioPhoto from '../assets/images/hotel/refugio-lobitos.webp'
 
 /**
  * Home — Página de inicio del Hotel Lobitos.
@@ -36,6 +36,8 @@ export default function Home() {
         titleLines={['Hotel', 'Lobitos']}
         image={f1}
         imageAlt="Surfistas con tablas bajo la palapa, frente al mar en Lobitos"
+        imageWidth={1672}
+        imageHeight={941}
         description="Un refugio frente al mar donde el surf, la buena mesa y el descanso conviven."
         cta={{ label: 'Descubre el hotel', href: '#historia', arrow: '→' }}
       />
@@ -76,34 +78,46 @@ export default function Home() {
               title: 'Enfoque en Surf',
               text: 'Ubicación inmejorable frente a las mejores olas de Lobitos.',
               image: surfPhoto,
+              imageWidth: 601,
+              imageHeight: 579,
             },
             {
               title: 'Terraza privada',
               text: 'Vistas espectaculares y ambiente tranquilo para tu descanso total.',
               image: terrazaPhoto,
+              imageWidth: 1240,
+              imageHeight: 828,
             },
             {
               title: 'Habitaciones confortables',
               text: 'Diseñadas para el relax con un enfoque en la comodidad y naturaleza.',
               image: roomPhoto,
+              imageWidth: 1440,
+              imageHeight: 1440,
             },
             {
               title: 'WiFi gratuito',
               text: 'Conexión estable para que compartas tus mejores olas o trabajes frente al mar.',
               image: wifiPhoto,
               imageAlt: 'Huésped trabajando en su laptop con vista al mar en Hotel Lobitos',
+              imageWidth: 1535,
+              imageHeight: 1024,
             },
             {
               title: 'Traslado Directo',
               text: 'Traslados al aeropuerto para su mayor comodidad y bienestar.',
               image: movilidadPhoto,
               imageAlt: 'Van de traslado de Hermanos del Norte en la entrada de Hotel Lobitos',
+              imageWidth: 1536,
+              imageHeight: 1024,
             },
             {
               title: 'Estacionamiento privado',
               text: 'Seguridad y comodidad para tu vehículo durante toda tu estancia.',
               image: estacionamientoPhoto,
               imageAlt: 'Vehículo con tablas de surf en el estacionamiento privado de Hotel Lobitos',
+              imageWidth: 1536,
+              imageHeight: 1024,
             },
           ]}
         />
@@ -112,8 +126,11 @@ export default function Home() {
       <CTABanner
         variant="on-terracota"
         immersive
+        imagePriority
         image={refugioPhoto}
         imageAlt="Surfista dentro del tubo de una ola en Lobitos"
+        imageWidth={2752}
+        imageHeight={1536}
         title="Tu Refugio en el Mar de Lobitos"
         copy="Descanse y surfee en un ambiente tranquilo frente al paraíso. El hotel ideal frente al mar para su descanso."
         phone="+51 974 578 082"
@@ -128,9 +145,27 @@ export default function Home() {
           sub="Descubre la magia de nuestras terrazas y el entorno natural. Un espacio diseñado para el descanso y la conexión con el mar."
           onVerde
           items={[
-            { image: casa1, alt: 'Loft con balcón frente al mar en Hotel Lobitos', caption: 'Loft frente al mar' },
-            { image: casa2, alt: 'Espacio común de Hotel Lobitos', caption: 'Espacios comunes' },
-            { image: casa3, alt: 'Habitación con balcón frente al mar en Hotel Lobitos', caption: 'Habitaciones con vista' },
+            {
+              image: casa1,
+              alt: 'Loft con balcón frente al mar en Hotel Lobitos',
+              caption: 'Loft frente al mar',
+              imageWidth: 1440,
+              imageHeight: 1440,
+            },
+            {
+              image: casa2,
+              alt: 'Espacio común de Hotel Lobitos',
+              caption: 'Espacios comunes',
+              imageWidth: 1440,
+              imageHeight: 1439,
+            },
+            {
+              image: casa3,
+              alt: 'Habitación con balcón frente al mar en Hotel Lobitos',
+              caption: 'Habitaciones con vista',
+              imageWidth: 1440,
+              imageHeight: 1440,
+            },
           ]}
         />
       </section>

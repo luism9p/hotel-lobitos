@@ -112,7 +112,14 @@ export default function SurfTripsEditorial({ title, intro, categories, ctaLabel,
           {categories.map((cat) => (
             <div className="trip-card" key={cat.title}>
               <div className="trip-card-media">
-                <Photo src={cat.image} alt={cat.imageAlt} placeholder={cat.placeholder} />
+                <Photo
+                  src={cat.image}
+                  alt={cat.imageAlt}
+                  placeholder={cat.placeholder}
+                  width={cat.imageWidth}
+                  height={cat.imageHeight}
+                  loading="lazy"
+                />
               </div>
               <h3 className="trip-card-title">{cat.title}</h3>
               <p className="trip-card-text">{cat.text}</p>

@@ -132,7 +132,14 @@ export default function ServicesGrid({ title, sub, onVerde = false, items }) {
             }}
             className="service-image"
           >
-            <Photo src={item.image} alt="" placeholder={item.placeholder} />
+            <Photo
+              src={item.image}
+              alt=""
+              placeholder={item.placeholder}
+              width={item.imageWidth}
+              height={item.imageHeight}
+              loading="lazy"
+            />
           </div>
         ))}
       </div>

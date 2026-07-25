@@ -4,7 +4,6 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { LenisProvider, useLenis } from './hooks/useLenis.js'
 import Navbar from './components/layout/Navbar.jsx'
 import Footer from './components/layout/Footer.jsx'
-import FloatingWhatsApp from './components/layout/FloatingWhatsApp.jsx'
 import Home from './pages/Home.jsx'
 import HotelLobitos from './pages/HotelLobitos.jsx'
 import SurfAcademy from './pages/SurfAcademy.jsx'
@@ -44,7 +43,6 @@ function App() {
         </Routes>
       </main>
       <Footer />
-      <FloatingWhatsApp />
     </LenisProvider>
   )
 }

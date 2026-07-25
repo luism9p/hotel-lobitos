@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom'
-import logoMark from '../../assets/icons/logo-surf-lobitos.png'
+import logoMark from '../../assets/icons/logo-surf-lobitos.webp'
 
 export default function Footer() {
   return (
@@ -7,7 +7,13 @@ export default function Footer() {
       <div className="footer-cols">
         <div>
           <div className="brand">
-            <img src={logoMark} alt="Hotel Lobitos Restaurant &amp; Surf Academy" />
+            <img
+              src={logoMark}
+              alt="Hotel Lobitos Restaurant &amp; Surf Academy"
+              width={1300}
+              height={398}
+              loading="lazy"
+            />
           </div>
           <p className="tagline">Un refugio de tranquilidad frente al mar en Lobitos, Perú.</p>
           <p>Lobitos, Perú</p>

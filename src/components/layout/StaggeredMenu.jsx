@@ -402,6 +402,7 @@ export const StaggeredMenu = ({
             draggable={false}
             width={137}
             height={42}
+            fetchPriority="high"
           />
         </Link>
         <button

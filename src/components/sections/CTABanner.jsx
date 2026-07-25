@@ -41,6 +41,12 @@ export default function CTABanner({
   immersive = false,
   image,
   imageAlt = '',
+  imageWidth,
+  imageHeight,
+  // Opt-in per call site, not a blanket "immersive is always LCP" default —
+  // only "Tu Refugio en el Mar de Lobitos" (Home) actually is; a future
+  // immersive CTA further down a page should still lazy-load normally.
+  imagePriority = false,
   placeholder,
   marquee = false,
   marqueeText,
@@ -168,7 +174,15 @@ export default function CTABanner({
       <section ref={sectionRef} className={`cta-block ${variant} cta-block-immersive`}>
         <div className="cta-block-media-clip">
           <div className="cta-block-media" ref={mediaRef}>
-            <Photo src={image} alt={imageAlt} placeholder={placeholder} />
+            <Photo
+              src={image}
+              alt={imageAlt}
+              placeholder={placeholder}
+              width={imageWidth}
+              height={imageHeight}
+              loading={imagePriority ? 'eager' : 'lazy'}
+              fetchPriority={imagePriority ? 'high' : undefined}
+            />
           </div>
         </div>
         <div className="cta-block-overlay" />

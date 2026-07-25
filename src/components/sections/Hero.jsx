@@ -24,6 +24,8 @@ export default function Hero({
   title,
   image,
   imageAlt,
+  imageWidth,
+  imageHeight,
   placeholder,
   description,
   cta,
@@ -60,7 +62,19 @@ export default function Hero({
             floating availability widget / calendar popover. */}
         <div className="hero-full-media">
           <div className="hero-full-bg" ref={photoRef}>
-            <Photo src={image} alt={imageAlt} placeholder={placeholder} loading="eager" />
+            {/* This is the page's actual LCP element (full-bleed hero photo,
+                largest above-fold content) — eager + fetchPriority="high"
+                pushes it to the front of the network queue instead of
+                competing with everything else the browser discovers. */}
+            <Photo
+              src={image}
+              alt={imageAlt}
+              placeholder={placeholder}
+              width={imageWidth}
+              height={imageHeight}
+              loading="eager"
+              fetchPriority="high"
+            />
           </div>
           <div className="hero-full-overlay" />
         </div>
@@ -103,7 +117,7 @@ export default function Hero({
     <section className="page-hero">
       <div className="page-hero-inner" data-reveal-group>
         <div className="page-hero-photo reveal">
-          <Photo src={image} alt={imageAlt} placeholder={placeholder} />
+          <Photo src={image} alt={imageAlt} placeholder={placeholder} width={imageWidth} height={imageHeight} />
         </div>
         <span className="eyebrow reveal">{eyebrow}</span>
         <h1 className="reveal">{title}</h1>

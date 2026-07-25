@@ -47,10 +47,10 @@ export default function AvailabilityWidget() {
     setError('')
     const message = [
       'Hola! Quisiera consultar disponibilidad en Hotel Lobitos:',
-      `📅 Check-in: ${formatDate(checkIn)}`,
-      `📅 Check-out: ${formatDate(checkOut)}`,
-      `🛏️ Habitaciones: ${rooms}`,
-      `👥 Huéspedes: ${guests}`,
+      `Check-in: ${formatDate(checkIn)}`,
+      `Check-out: ${formatDate(checkOut)}`,
+      `Habitaciones: ${rooms}`,
+      `Huéspedes: ${guests}`,
     ].join('\n')
     window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`, '_blank', 'noopener')
   }

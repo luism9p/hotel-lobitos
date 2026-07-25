@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import StaggeredMenu from './StaggeredMenu.jsx'
 import { useLenis } from '../../hooks/useLenis.js'
-import logoMark from '../../assets/icons/logo-surf-lobitos.png'
+import logoMark from '../../assets/icons/logo-surf-lobitos.webp'
 
 // Matches the live site's 4-item nav exactly: Inicio / HOTEL LOBITOS
 // (Nuestro Compromiso + Desayuno/Relajación) / Surf Academy / Reservar.
