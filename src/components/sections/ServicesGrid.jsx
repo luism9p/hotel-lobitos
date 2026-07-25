@@ -89,15 +89,18 @@ export default function ServicesGrid({ title, sub, onVerde = false, items }) {
 
   return (
     <section ref={sectionRef} className="services-list-section">
-      <div className="container" style={{ paddingLeft: 0, paddingRight: 0, maxWidth: 1440 }}>
+      {/* No paddingLeft/Right:0 override here (unlike BoardAccordion's and
+          BookingWidget's .container usages in SurfAcademy.jsx) — THOSE sit
+          inside an outer <section className="section-pad"> that already
+          supplies 44px/24px horizontal padding, so zeroing .container's own
+          avoids doubling it up. This section has no such outer wrapper —
+          .container's default padding (44px desktop / 24px mobile, see
+          global.css) is the ONLY horizontal padding this content gets. */}
+      <div className="container" style={{ maxWidth: 1440 }}>
         <SectionTitle title={title} sub={sub} onVerde={onVerde} />
       </div>
 
-      <div
-        className="services-list container"
-        style={{ paddingLeft: 0, paddingRight: 0, maxWidth: 1440 }}
-        data-reveal-group
-      >
+      <div className="services-list container" style={{ maxWidth: 1440 }} data-reveal-group>
         {items.map((item, i) => (
           <div
             key={item.title}
