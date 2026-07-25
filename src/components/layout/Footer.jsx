@@ -1,5 +1,8 @@
 import { Link } from 'react-router-dom'
-import logoMark from '../../assets/icons/logo-surf-lobitos.webp'
+
+// Same public/ path the Navbar preloads — kept as one shared file rather
+// than a duplicate hashed copy in src/assets.
+const LOGO_URL = '/logo-surf-lobitos.webp'
 
 export default function Footer() {
   return (
@@ -8,7 +11,7 @@ export default function Footer() {
         <div>
           <div className="brand">
             <img
-              src={logoMark}
+              src={LOGO_URL}
               alt="Hotel Lobitos Restaurant &amp; Surf Academy"
               width={1300}
               height={398}

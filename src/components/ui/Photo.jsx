@@ -15,6 +15,12 @@
  * ="high"` for the LCP candidate (hero photo, parallax banner) and
  * `loading="lazy"` for anything below the fold, never both on the same
  * image.
+ *
+ * `mobileSrc` is opt-in — only pass it when a dedicated small-viewport
+ * asset exists (e.g. a downscaled banner). When present, renders a
+ * <picture> with a `(max-width: mobileBreakpoint)` source so phones fetch
+ * the lighter file instead of the desktop one; every other caller that
+ * doesn't pass it keeps rendering a plain <img>, unchanged.
  */
 export default function Photo({
   src,
@@ -25,9 +31,11 @@ export default function Photo({
   width,
   height,
   fetchPriority,
+  mobileSrc,
+  mobileBreakpoint = 767,
 }) {
   if (src) {
-    return (
+    const img = (
       <img
         src={src}
         alt={alt}
@@ -38,6 +46,15 @@ export default function Photo({
         fetchPriority={fetchPriority}
       />
     )
+    if (mobileSrc) {
+      return (
+        <picture>
+          <source media={`(max-width: ${mobileBreakpoint}px)`} srcSet={mobileSrc} />
+          {img}
+        </picture>
+      )
+    }
+    return img
   }
   return (
     <div className={`img-placeholder ${className}`.trim()}>

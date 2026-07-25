@@ -16,6 +16,7 @@ import wifiPhoto from '../assets/images/hotel/foto-wifi.webp'
 import movilidadPhoto from '../assets/images/hotel/foto-movilidad.webp'
 import estacionamientoPhoto from '../assets/images/hotel/estacionamiento.webp'
 import refugioPhoto from '../assets/images/hotel/refugio-lobitos.webp'
+import refugioPhotoMobile from '../assets/images/hotel/refugio-lobitos-mobile.webp'
 
 /**
  * Home — Página de inicio del Hotel Lobitos.
@@ -128,6 +129,7 @@ export default function Home() {
         immersive
         imagePriority
         image={refugioPhoto}
+        mobileImage={refugioPhotoMobile}
         imageAlt="Surfista dentro del tubo de una ola en Lobitos"
         imageWidth={2752}
         imageHeight={1536}

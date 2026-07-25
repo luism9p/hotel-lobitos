@@ -40,6 +40,7 @@ export default function CTABanner({
   buttonVariant = 'outline-crema',
   immersive = false,
   image,
+  mobileImage,
   imageAlt = '',
   imageWidth,
   imageHeight,
@@ -176,6 +177,7 @@ export default function CTABanner({
           <div className="cta-block-media" ref={mediaRef}>
             <Photo
               src={image}
+              mobileSrc={mobileImage}
               alt={imageAlt}
               placeholder={placeholder}
               width={imageWidth}
