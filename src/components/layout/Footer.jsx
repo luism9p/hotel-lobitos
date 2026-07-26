@@ -13,8 +13,8 @@ export default function Footer() {
             <img
               src={LOGO_URL}
               alt="Hotel Lobitos Restaurant &amp; Surf Academy"
-              width={1300}
-              height={398}
+              width={300}
+              height={92}
               loading="lazy"
             />
           </div>
