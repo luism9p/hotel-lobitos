@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useCallback, useState } from 'react'
 import DateRangePicker from '../ui/DateRangePicker.jsx'
 import Dropdown from '../ui/Dropdown.jsx'
 
@@ -29,10 +29,16 @@ export default function AvailabilityWidget() {
   const [guests, setGuests] = useState('2')
   const [error, setError] = useState('')
 
-  const handleDateRangeChange = ({ checkIn: nextCheckIn, checkOut: nextCheckOut }) => {
+  // useState setters are already reference-stable across renders, so an
+  // empty dep array here is correct — this keeps `onChange`'s identity
+  // stable too, which DateRangePicker's own memoized callbacks depend on.
+  // Without this, AvailabilityWidget re-rendering for any reason (e.g. the
+  // rooms/guests dropdowns) would cascade into new callback identities
+  // all the way down into the calendar popover for no reason.
+  const handleDateRangeChange = useCallback(({ checkIn: nextCheckIn, checkOut: nextCheckOut }) => {
     setCheckIn(nextCheckIn)
     setCheckOut(nextCheckOut)
-  }
+  }, [])
 
   const handleSubmit = (e) => {
     e.preventDefault()

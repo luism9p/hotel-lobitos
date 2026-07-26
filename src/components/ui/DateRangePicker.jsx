@@ -1,4 +1,4 @@
-import { Suspense, lazy, useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react'
+import { Suspense, lazy, useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react'
 
 // react-day-picker (JS + its stylesheet) is only fetched once the user
 // actually opens the calendar (see `open`, guarding the popover below) —
@@ -66,8 +66,15 @@ export default function DateRangePicker({ checkIn, checkOut, onChange }) {
   const groupRef = useRef(null)
   const popoverRef = useRef(null)
 
-  const range = { from: fromISODate(checkIn), to: fromISODate(checkOut) }
-  const today = toDateOnly(new Date())
+  // fromISODate/toDateOnly construct a new Date each call — deriving these
+  // as plain `const`s every render would mean any useCallback below that
+  // depends on them "changes" every render even when checkIn/checkOut
+  // didn't, defeating the memoization. range is memoized off the actual
+  // primitive props; today is computed once for the component's lifetime
+  // (a booking form is never open long enough for the calendar date to
+  // roll over mid-session).
+  const range = useMemo(() => ({ from: fromISODate(checkIn), to: fromISODate(checkOut) }), [checkIn, checkOut])
+  const today = useMemo(() => toDateOnly(new Date()), [])
 
   const reposition = useCallback(() => {
     const trigger = groupRef.current
@@ -117,13 +124,28 @@ export default function DateRangePicker({ checkIn, checkOut, onChange }) {
     }
   }, [open, reposition])
 
+  // Closing with only `from` picked (the user tapped a start date, then
+  // dismissed the calendar without finishing) clears that partial pick
+  // rather than leaving it stranded — same intent as FullCalendar's
+  // unselectAuto: an abandoned selection doesn't survive the interaction
+  // that abandoned it.
+  const discardIncompleteRange = useCallback(() => {
+    if (checkIn && !checkOut) onChange({ checkIn: '', checkOut: '' })
+  }, [checkIn, checkOut, onChange])
+
   useEffect(() => {
     if (!open) return undefined
     const handlePointerDown = (event) => {
-      if (groupRef.current && !groupRef.current.contains(event.target)) setOpen(false)
+      if (groupRef.current && !groupRef.current.contains(event.target)) {
+        setOpen(false)
+        discardIncompleteRange()
+      }
     }
     const handleKeyDown = (event) => {
-      if (event.key === 'Escape') setOpen(false)
+      if (event.key === 'Escape') {
+        setOpen(false)
+        discardIncompleteRange()
+      }
     }
     document.addEventListener('mousedown', handlePointerDown)
     document.addEventListener('keydown', handleKeyDown)
@@ -131,21 +153,33 @@ export default function DateRangePicker({ checkIn, checkOut, onChange }) {
       document.removeEventListener('mousedown', handlePointerDown)
       document.removeEventListener('keydown', handleKeyDown)
     }
-  }, [open])
+  }, [open, discardIncompleteRange])
 
-  const handleSelect = (nextRange) => {
-    const from = nextRange?.from
-    const to = nextRange?.to
-    onChange({ checkIn: toISODate(from), checkOut: toISODate(to) })
-    if (from && to) setOpen(false)
-  }
+  // Stable identity (useCallback) so DayPicker — and the popover subtree
+  // under it — never sees a new `onSelect`/`disabled` reference on renders
+  // that don't actually change selection logic; this is what keeps the
+  // date-picking interaction scoped to this component instead of forcing
+  // react-day-picker's internal day-grid to re-evaluate every prop on
+  // every parent render.
+  const handleDateSelect = useCallback(
+    (nextRange) => {
+      const from = nextRange?.from
+      const to = nextRange?.to
+      onChange({ checkIn: toISODate(from), checkOut: toISODate(to) })
+      if (from && to) setOpen(false)
+    },
+    [onChange],
+  )
 
-  const isDisabledDay = (date) => {
-    const day = toDateOnly(date)
-    if (day < today) return true
-    if (range.from && !range.to && day <= toDateOnly(range.from)) return true
-    return false
-  }
+  const isDisabledDay = useCallback(
+    (date) => {
+      const day = toDateOnly(date)
+      if (day < today) return true
+      if (checkIn && !checkOut && day <= toDateOnly(fromISODate(checkIn))) return true
+      return false
+    },
+    [checkIn, checkOut, today],
+  )
 
   return (
     <div className="aw-daterange" ref={groupRef}>
@@ -193,7 +227,7 @@ export default function DateRangePicker({ checkIn, checkOut, onChange }) {
             <DayPicker
               mode="range"
               selected={range}
-              onSelect={handleSelect}
+              onSelect={handleDateSelect}
               disabled={isDisabledDay}
               defaultMonth={range.from || today}
               numberOfMonths={2}
