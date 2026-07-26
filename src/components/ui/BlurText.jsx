@@ -37,7 +37,11 @@ export default function BlurText({
 
   // Not a GSAP hook (this is Framer Motion), so no gsap.matchMedia() here —
   // same intent as the GSAP components though: filter:blur is a real
-  // paint/composite cost, skipped on mobile in favor of a plain fade.
+  // paint/composite cost, skipped on mobile in favor of a plain fade. The
+  // lazy initializer reads matchMedia synchronously during the FIRST
+  // render (not in an effect), so this is already correct on the very
+  // first paint — no flash of the animated version before it corrects
+  // itself.
   const [isMobile, setIsMobile] = useState(
     () => typeof window !== 'undefined' && window.matchMedia('(max-width: 768px)').matches,
   )
@@ -50,7 +54,10 @@ export default function BlurText({
   }, [])
 
   useEffect(() => {
-    if (!ref.current) return undefined
+    // Mobile never animates, so it never needs to know when this element
+    // enters the viewport — skip constructing the observer at all rather
+    // than creating it and never using its result.
+    if (!ref.current || isMobile) return undefined
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
@@ -62,30 +69,44 @@ export default function BlurText({
     )
     observer.observe(ref.current)
     return () => observer.disconnect()
-  }, [threshold, rootMargin])
+  }, [threshold, rootMargin, isMobile])
 
-  // No `opacity` key in either variant, on purpose: Framer Motion's `initial`
-  // prop is applied as an inline style on the very first paint, so an
-  // opacity:0 starting keyframe means this text is literally invisible
-  // until this component's JS runs — for above-the-fold text (the Hero
+  // No `opacity` key here, on purpose: Framer Motion's `initial` prop is
+  // applied as an inline style on the very first paint, so an opacity:0
+  // starting keyframe means this text is literally invisible until this
+  // component's JS runs — for above-the-fold text (the Hero
   // wordmark/description use this component) that's exactly the "hidden
   // initial content" pattern Lighthouse penalizes. The entrance motion is
-  // carried entirely by `y` (+ `filter` on desktop) with the text itself
-  // visible from the first frame.
+  // carried entirely by `y` + `filter`, with the text itself visible from
+  // the first frame. Computed unconditionally (even though the mobile
+  // branch below doesn't use them) — hooks can't follow a conditional
+  // return, or the count changes between mobile/desktop renders.
   const defaultFrom = useMemo(() => {
     const y = direction === 'top' ? -50 : 50
-    return isMobile ? { y } : { filter: 'blur(10px)', y }
-  }, [direction, isMobile])
+    return { filter: 'blur(10px)', y }
+  }, [direction])
 
   const defaultTo = useMemo(() => {
     const midY = direction === 'top' ? 5 : -5
-    return isMobile
-      ? [{ y: midY }, { y: 0 }]
-      : [
-          { filter: 'blur(5px)', y: midY },
-          { filter: 'blur(0px)', y: 0 },
-        ]
-  }, [direction, isMobile])
+    return [
+      { filter: 'blur(5px)', y: midY },
+      { filter: 'blur(0px)', y: 0 },
+    ]
+  }, [direction])
+
+  // Entirely off the animation-library path on mobile: no motion.span, no
+  // blur-text-segment class, no per-letter/word split — just the plain
+  // text a <p> would contain on its own. Nothing here waits on Framer
+  // Motion, an IntersectionObserver, or any other JS beyond React's own
+  // initial render, and there's zero animation className in this DOM for
+  // Lighthouse (or anyone else) to find.
+  if (isMobile) {
+    return (
+      <p ref={ref} className={className}>
+        {text}
+      </p>
+    )
+  }
 
   const fromSnapshot = animationFrom ?? defaultFrom
   const toSnapshots = animationTo ?? defaultTo
