@@ -4,19 +4,71 @@ import StickyHistoria from '../components/sections/StickyHistoria.jsx'
 import CTABanner from '../components/sections/CTABanner.jsx'
 import HorizontalGallery from '../components/sections/HorizontalGallery.jsx'
 import ServicesGrid from '../components/sections/ServicesGrid.jsx'
+import ServicesGallery from '../components/sections/ServicesGallery.jsx'
 import useScrollReveal from '../hooks/useScrollReveal.js'
 import f1 from '../assets/images/hero/f1.webp'
 import casa1 from '../assets/images/hotel/casa-01.webp'
 import casa2 from '../assets/images/hotel/casa-02.webp'
 import casa3 from '../assets/images/hotel/casa-03.webp'
-import surfPhoto from '../assets/images/surf/foto-buceando.avif'
-import terrazaPhoto from '../assets/images/hotel/f2.avif'
+import surfPhoto from '../assets/images/surf/enfoque-surf.webp'
+import terrazaPhoto from '../assets/images/hotel/terraza-privada.webp'
 import roomPhoto from '../assets/images/_incoming/room-spare-1.webp'
 import wifiPhoto from '../assets/images/hotel/foto-wifi.webp'
 import movilidadPhoto from '../assets/images/hotel/foto-movilidad.webp'
 import estacionamientoPhoto from '../assets/images/hotel/estacionamiento.webp'
 import refugioPhoto from '../assets/images/hotel/refugio-lobitos.webp'
 import refugioPhotoMobile from '../assets/images/hotel/refugio-lobitos-mobile.webp'
+
+// Shared by ServicesGrid (list + hover-follow photo) and ServicesGallery
+// (hover-expand photo strip, right below it) — same 6 amenities, two
+// visual treatments, one source of truth for the images/alt text.
+const SERVICE_ITEMS = [
+  {
+    title: 'Enfoque en Surf',
+    text: 'Ubicación inmejorable frente a las mejores olas de Lobitos.',
+    image: surfPhoto,
+    imageWidth: 900,
+    imageHeight: 600,
+  },
+  {
+    title: 'Terraza privada',
+    text: 'Vistas espectaculares y ambiente tranquilo para tu descanso total.',
+    image: terrazaPhoto,
+    imageWidth: 900,
+    imageHeight: 600,
+  },
+  {
+    title: 'Habitaciones confortables',
+    text: 'Diseñadas para el relax con un enfoque en la comodidad y naturaleza.',
+    image: roomPhoto,
+    imageWidth: 1440,
+    imageHeight: 1440,
+  },
+  {
+    title: 'WiFi gratuito',
+    text: 'Conexión estable para que compartas tus mejores olas o trabajes frente al mar.',
+    image: wifiPhoto,
+    imageAlt: 'Huésped trabajando en su laptop con vista al mar en Hotel Lobitos',
+    imageWidth: 1535,
+    imageHeight: 1024,
+  },
+  {
+    title: 'Traslado Directo',
+    text: 'Traslados al aeropuerto para su mayor comodidad y bienestar.',
+    image: movilidadPhoto,
+    imageAlt: 'Van de traslado de Hermanos del Norte en la entrada de Hotel Lobitos',
+    imageWidth: 1536,
+    imageHeight: 1024,
+  },
+  {
+    title: 'Estacionamiento privado',
+    text: 'Seguridad y comodidad para tu vehículo durante toda tu estancia.',
+    image: estacionamientoPhoto,
+    imageAlt: 'Vehículo con tablas de surf en el estacionamiento privado de Hotel Lobitos',
+    imageWidth: 1536,
+    imageHeight: 1024,
+  },
+]
 
 /**
  * Home — Página de inicio del Hotel Lobitos.
@@ -69,59 +121,14 @@ export default function Home() {
           own <section> with its own vertical padding; wrapping it in
           another padded section would double it up. This div only sets
           the background/text color. */}
-      <div style={{ background: 'var(--color-verde)', color: 'var(--color-crema)' }}>
+      <div className="services-section" style={{ background: 'var(--color-verde)', color: 'var(--color-crema)' }}>
         <ServicesGrid
           title="Servicios & Comodidades"
           sub="Todo lo que necesitas para una estancia perfecta frente al mar en Lobitos."
           onVerde
-          items={[
-            {
-              title: 'Enfoque en Surf',
-              text: 'Ubicación inmejorable frente a las mejores olas de Lobitos.',
-              image: surfPhoto,
-              imageWidth: 601,
-              imageHeight: 579,
-            },
-            {
-              title: 'Terraza privada',
-              text: 'Vistas espectaculares y ambiente tranquilo para tu descanso total.',
-              image: terrazaPhoto,
-              imageWidth: 1240,
-              imageHeight: 828,
-            },
-            {
-              title: 'Habitaciones confortables',
-              text: 'Diseñadas para el relax con un enfoque en la comodidad y naturaleza.',
-              image: roomPhoto,
-              imageWidth: 1440,
-              imageHeight: 1440,
-            },
-            {
-              title: 'WiFi gratuito',
-              text: 'Conexión estable para que compartas tus mejores olas o trabajes frente al mar.',
-              image: wifiPhoto,
-              imageAlt: 'Huésped trabajando en su laptop con vista al mar en Hotel Lobitos',
-              imageWidth: 1535,
-              imageHeight: 1024,
-            },
-            {
-              title: 'Traslado Directo',
-              text: 'Traslados al aeropuerto para su mayor comodidad y bienestar.',
-              image: movilidadPhoto,
-              imageAlt: 'Van de traslado de Hermanos del Norte en la entrada de Hotel Lobitos',
-              imageWidth: 1536,
-              imageHeight: 1024,
-            },
-            {
-              title: 'Estacionamiento privado',
-              text: 'Seguridad y comodidad para tu vehículo durante toda tu estancia.',
-              image: estacionamientoPhoto,
-              imageAlt: 'Vehículo con tablas de surf en el estacionamiento privado de Hotel Lobitos',
-              imageWidth: 1536,
-              imageHeight: 1024,
-            },
-          ]}
+          items={SERVICE_ITEMS}
         />
+        <ServicesGallery items={SERVICE_ITEMS} />
       </div>
 
       <CTABanner

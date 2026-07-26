@@ -933,6 +933,15 @@ img { display: block; max-width: 100%; }
   .section-pad { padding: 64px 24px; }
 }
 
+/* Padding, not margin — a trailing margin on the last child collapses out
+   past this wrapper's own background, leaving a white gap before the next
+   section instead of extending the verde background down to meet it. */
+.services-section { padding-bottom: 96px; }
+
+@media (max-width: 900px) {
+  .services-section { padding-bottom: 64px; }
+}
+
 /* ============ BOARD ACCORDION (Alquiler de Tablas y Equipo) ============
    Pure-CSS interactive accordion — no JS, no fixed widths. Every card is
    flex:1 (equal thirds); :hover/:focus-within bumps flex-grow to 3, so
