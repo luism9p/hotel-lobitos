@@ -64,18 +64,26 @@ export default function BlurText({
     return () => observer.disconnect()
   }, [threshold, rootMargin])
 
+  // No `opacity` key in either variant, on purpose: Framer Motion's `initial`
+  // prop is applied as an inline style on the very first paint, so an
+  // opacity:0 starting keyframe means this text is literally invisible
+  // until this component's JS runs — for above-the-fold text (the Hero
+  // wordmark/description use this component) that's exactly the "hidden
+  // initial content" pattern Lighthouse penalizes. The entrance motion is
+  // carried entirely by `y` (+ `filter` on desktop) with the text itself
+  // visible from the first frame.
   const defaultFrom = useMemo(() => {
     const y = direction === 'top' ? -50 : 50
-    return isMobile ? { opacity: 0, y } : { filter: 'blur(10px)', opacity: 0, y }
+    return isMobile ? { y } : { filter: 'blur(10px)', y }
   }, [direction, isMobile])
 
   const defaultTo = useMemo(() => {
     const midY = direction === 'top' ? 5 : -5
     return isMobile
-      ? [{ opacity: 0.5, y: midY }, { opacity: 1, y: 0 }]
+      ? [{ y: midY }, { y: 0 }]
       : [
-          { filter: 'blur(5px)', opacity: 0.5, y: midY },
-          { filter: 'blur(0px)', opacity: 1, y: 0 },
+          { filter: 'blur(5px)', y: midY },
+          { filter: 'blur(0px)', y: 0 },
         ]
   }, [direction, isMobile])
 

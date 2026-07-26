@@ -54,6 +54,11 @@ export default function ScrollReveal({
     const wordElements = el.querySelectorAll('.word')
     const mm = gsap.matchMedia()
 
+    // Mobile gets NO matchMedia branch here at all — not even a GSAP
+    // instance is created below 769px. The reveal there is handled purely
+    // by the `@keyframes sr-fade-in` media-query block in ScrollReveal.css,
+    // fully decoupled from JS.
+
     // Desktop: the full effect — rotation + per-word opacity + blur, all
     // scrub-tied to scroll (recomputed every scroll frame). Writes are
     // batched via gsap.set() before any ScrollTrigger.create() read, so
@@ -93,22 +98,6 @@ export default function ScrollReveal({
         opacityTween.kill()
         blurTween?.kill()
       }
-    })
-
-    // Mobile: no rotation, no blur, no scrub — scrub recalculates on every
-    // scroll frame and blur is an expensive paint/composite, exactly what
-    // chokes the main thread on phones. A single once-off opacity fade
-    // covers the whole "reveals as it enters" intent at near-zero cost.
-    mm.add('(max-width: 768px)', () => {
-      gsap.set(wordElements, { opacity: 0 })
-      const tween = gsap.to(wordElements, {
-        opacity: 1,
-        duration: 0.5,
-        ease: 'power1.out',
-        scrollTrigger: { trigger: el, scroller, start: 'top 88%', once: true },
-      })
-
-      return () => tween.kill()
     })
 
     return () => mm.revert()

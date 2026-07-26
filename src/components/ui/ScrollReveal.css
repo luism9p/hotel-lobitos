@@ -11,3 +11,21 @@
 .word {
   display: inline-block;
 }
+
+/* Mobile fallback — ScrollReveal.jsx creates no GSAP/ScrollTrigger instance
+   at all below 769px; this is the entire reveal effect there, fully
+   decoupled from JS. No scroll-linking (that needs JS or the
+   not-yet-universal animation-timeline: view()) — words simply fade in
+   shortly after they're laid out, which reads identically to a scroll
+   reveal for anything below the fold since the user never sees it happen
+   off-screen. */
+@media (max-width: 768px) {
+  .scroll-reveal-text .word {
+    animation: sr-fade-in 0.5s ease-out both;
+  }
+}
+
+@keyframes sr-fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
