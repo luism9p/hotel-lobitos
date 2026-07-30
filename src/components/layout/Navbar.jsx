@@ -11,9 +11,9 @@ const LOGO_URL = '/logo-surf-lobitos.webp'
 // (Nuestro Compromiso + Desayuno/Relajación) / Surf Academy / Reservar.
 const MENU_ITEMS = [
   { label: 'Inicio', ariaLabel: 'Ir a Inicio', link: '/' },
-  { label: 'Hotel Lobitos', ariaLabel: 'Ver Hotel Lobitos', link: '/hotel-lobitos' },
+  { label: 'Hotel Bruma', ariaLabel: 'Ver Hotel Bruma', link: '/hotel-lobitos' },
   { label: 'Surf Academy', ariaLabel: 'Ver Surf Academy', link: '/surf-academy' },
-  { label: 'Reservar', ariaLabel: 'Reservar por WhatsApp', link: 'https://wa.me/51974578082' },
+  { label: 'Reservar', ariaLabel: 'Reservar por WhatsApp', link: 'https://wa.me/51904767959' },
 ]
 
 export default function Navbar() {

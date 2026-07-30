@@ -2,7 +2,7 @@ import { useRef } from 'react'
 import CommitmentBlock from '../components/sections/CommitmentBlock.jsx'
 import TheatricalReveal from '../components/sections/TheatricalReveal.jsx'
 import useScrollReveal from '../hooks/useScrollReveal.js'
-import fotoBote from '../assets/images/shared/foto-bote.avif'
+import estructuraCompromisoPhoto from '../assets/images/hotel/estructura-compromiso.webp'
 import desayunoPhoto from '../assets/images/hotel/desayuno.webp'
 import relajacionPhoto from '../assets/images/hotel/relajacion.webp'
 import recuperacionPhoto from '../assets/images/hotel/recuperacion.webp'
@@ -24,7 +24,7 @@ export default function HotelLobitos() {
       <CommitmentBlock
         isPageOpen
         eyebrow="Nuestro Compromiso"
-        title={<>Hotel Lobitos,<br />viajar es <em>honrar</em><br />la naturaleza</>}
+        title={<>Hotel Bruma,<br />viajar es <em>honrar</em><br />la naturaleza</>}
         text={
           <>
             Fusionamos calidez regional con iniciativas ecosostenibles que salvaguardan el ecosistema de
@@ -33,10 +33,10 @@ export default function HotelLobitos() {
             <span className="highlight">océanos</span> y el cuidado profundo de nuestra herencia terrestre.
           </>
         }
-        image={fotoBote}
-        imageAlt="Costa y comunidad de Piura"
-        imageWidth={601}
-        imageHeight={579}
+        image={estructuraCompromisoPhoto}
+        imageAlt="Manos tejiendo una hamaca artesanal frente al mar, con vista a la costa de Piura"
+        imageWidth={1200}
+        imageHeight={655}
         caption="Km 0 en la costa de Piura"
       />
 
@@ -47,7 +47,7 @@ export default function HotelLobitos() {
             title: 'Desayuno',
             text: 'Desayuno incluido con una selección artesanal de productos locales, fruta fresca y café de granos seleccionados.',
             image: desayunoPhoto,
-            imageAlt: 'Habitación de Hotel Lobitos con acceso a la terraza',
+            imageAlt: 'Habitación de Hotel Bruma con acceso a la terraza',
             imageWidth: 2816,
             imageHeight: 1536,
           },
@@ -56,7 +56,7 @@ export default function HotelLobitos() {
             title: 'Relajación',
             text: 'Descubra la tranquilidad absoluta en nuestra terraza privada frente al mar, ideal para disfrutar del sol y el viento.',
             image: relajacionPhoto,
-            imageAlt: 'Terraza privada de Hotel Lobitos frente al mar',
+            imageAlt: 'Terraza privada de Hotel Bruma frente al mar',
             imageWidth: 2816,
             imageHeight: 1536,
           },
@@ -64,7 +64,7 @@ export default function HotelLobitos() {
             title: 'Recuperación y Movilidad',
             text: 'El mar exige desgaste físico. Por eso, contamos con un espacio dedicado a la recuperación. Un área equipada con mats ideal para estirar, hacer yoga o practicar movimientos de entrenamiento funcional y jiu-jitsu para mantener la flexibilidad. Pensado para cuidar tu cuerpo después de una sesión intensa.',
             image: recuperacionPhoto,
-            imageAlt: 'Área de recuperación y movilidad de Hotel Lobitos con vista al mar',
+            imageAlt: 'Área de recuperación y movilidad de Hotel Bruma con vista al mar',
             imageWidth: 2816,
             imageHeight: 1536,
           },

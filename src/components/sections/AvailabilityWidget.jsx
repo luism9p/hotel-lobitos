@@ -5,7 +5,7 @@ import Dropdown from '../ui/Dropdown.jsx'
 const ROOM_OPTIONS = [1, 2, 3, 4, 5]
 const GUEST_OPTIONS = Array.from({ length: 10 }, (_, i) => i + 1)
 
-const WHATSAPP_NUMBER = '51974578082'
+const WHATSAPP_NUMBER = '51904767959'
 
 function formatDate(value) {
   if (!value) return ''
@@ -52,7 +52,7 @@ export default function AvailabilityWidget() {
     }
     setError('')
     const message = [
-      'Hola! Quisiera consultar disponibilidad en Hotel Lobitos:',
+      'Hola! Quisiera consultar disponibilidad en Hotel Bruma:',
       `Check-in: ${formatDate(checkIn)}`,
       `Check-out: ${formatDate(checkOut)}`,
       `Habitaciones: ${rooms}`,

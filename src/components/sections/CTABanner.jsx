@@ -139,7 +139,7 @@ export default function CTABanner({
   }
 
   if (marquee) {
-    const phrase = `${marqueeText || title} • Hotel Lobitos • `.toUpperCase()
+    const phrase = `${marqueeText || title} • Hotel Bruma • `.toUpperCase()
     const half = Array.from({ length: MARQUEE_REPEATS }, () => phrase).join('')
 
     return (

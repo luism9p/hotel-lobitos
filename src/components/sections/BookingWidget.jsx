@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import Button from '../ui/Button.jsx'
 
-const WA_HREF = 'https://wa.me/51974578082'
+const WA_HREF = 'https://wa.me/51904767959'
 
 // Static content — zero dependencies, so a plain module-level constant is
 // enough; useMemo exists for recomputing against changing props/state,

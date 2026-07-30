@@ -6,10 +6,10 @@ import HorizontalGallery from '../components/sections/HorizontalGallery.jsx'
 import ServicesGrid from '../components/sections/ServicesGrid.jsx'
 import ServicesGallery from '../components/sections/ServicesGallery.jsx'
 import useScrollReveal from '../hooks/useScrollReveal.js'
-import f1 from '../assets/images/hero/f1.webp'
-import casa1 from '../assets/images/hotel/casa-01.webp'
-import casa2 from '../assets/images/hotel/casa-02.webp'
-import casa3 from '../assets/images/hotel/casa-03.webp'
+import heroPhoto from '../assets/images/hero/hotel-hero.webp'
+import cuarto1 from '../assets/images/hotel/cuarto-1.webp'
+import cuarto2 from '../assets/images/hotel/cuarto-2.webp'
+import cuarto3 from '../assets/images/hotel/cuarto-3.webp'
 import surfPhoto from '../assets/images/surf/enfoque-surf.webp'
 import terrazaPhoto from '../assets/images/hotel/terraza-privada.webp'
 import roomPhoto from '../assets/images/_incoming/room-spare-1.webp'
@@ -42,13 +42,13 @@ const SERVICE_ITEMS = [
     text: 'Diseñadas para el relax con un enfoque en la comodidad y naturaleza.',
     image: roomPhoto,
     imageWidth: 1440,
-    imageHeight: 1440,
+    imageHeight: 785,
   },
   {
     title: 'WiFi gratuito',
     text: 'Conexión estable para que compartas tus mejores olas o trabajes frente al mar.',
     image: wifiPhoto,
-    imageAlt: 'Huésped trabajando en su laptop con vista al mar en Hotel Lobitos',
+    imageAlt: 'Huésped trabajando en su laptop con vista al mar en Hotel Bruma',
     imageWidth: 1535,
     imageHeight: 1024,
   },
@@ -56,7 +56,7 @@ const SERVICE_ITEMS = [
     title: 'Traslado Directo',
     text: 'Traslados al aeropuerto para su mayor comodidad y bienestar.',
     image: movilidadPhoto,
-    imageAlt: 'Van de traslado de Hermanos del Norte en la entrada de Hotel Lobitos',
+    imageAlt: 'Van de traslado de Hermanos del Norte en la entrada de Hotel Bruma',
     imageWidth: 1536,
     imageHeight: 1024,
   },
@@ -64,14 +64,14 @@ const SERVICE_ITEMS = [
     title: 'Estacionamiento privado',
     text: 'Seguridad y comodidad para tu vehículo durante toda tu estancia.',
     image: estacionamientoPhoto,
-    imageAlt: 'Vehículo con tablas de surf en el estacionamiento privado de Hotel Lobitos',
+    imageAlt: 'Vehículo con tablas de surf en el estacionamiento privado de Hotel Bruma',
     imageWidth: 1536,
     imageHeight: 1024,
   },
 ]
 
 /**
- * Home — Página de inicio del Hotel Lobitos.
+ * Home — Página de inicio del Hotel Bruma.
  *
  * Secciones avanzadas de animación:
  * - StickyHistoria: título gigante anclado (GSAP pin) / párrafos derechos fluyen
@@ -86,11 +86,11 @@ export default function Home() {
       <Hero
         variant="centered"
         eyebrow="Lobitos · Piura · Perú"
-        titleLines={['Hotel', 'Lobitos']}
-        image={f1}
-        imageAlt="Surfistas con tablas bajo la palapa, frente al mar en Lobitos"
-        imageWidth={1672}
-        imageHeight={941}
+        titleLines={['Hotel', 'Bruma']}
+        image={heroPhoto}
+        imageAlt="Vista aérea del hotel sobre el acantilado, con piscina infinita y un surfista en la ola frente a la costa de Lobitos"
+        imageWidth={1680}
+        imageHeight={938}
         description="Un refugio frente al mar donde el surf, la buena mesa y el descanso conviven."
         cta={{ label: 'Descubre el hotel', href: '#historia', arrow: '→' }}
       />
@@ -104,7 +104,7 @@ export default function Home() {
         paragraphs={[
           {
             animatedText: true,
-            text: 'En Hotel Lobitos, la brisa del Pacífico es nuestra mejor bienvenida. Nos ubicamos en primera línea de playa, ofreciendo a nuestros huéspedes una conexión inigualable con el entorno natural de Lobitos.',
+            text: 'En Hotel Bruma, la brisa del Pacífico es nuestra mejor bienvenida. Nos ubicamos en primera línea de playa, ofreciendo a nuestros huéspedes una conexión inigualable con el entorno natural de Lobitos.',
           },
           {
             eyebrow: 'Un poco de Lobitos',
@@ -142,9 +142,9 @@ export default function Home() {
         imageHeight={1536}
         title="Tu Refugio en el Mar de Lobitos"
         copy="Descanse y surfee en un ambiente tranquilo frente al paraíso. El hotel ideal frente al mar para su descanso."
-        phone="+51 974 578 082"
+        phone="+51 904 767 959"
         ctaLabel="Reservar Ahora"
-        ctaHref="https://wa.me/51974578082"
+        ctaHref="https://wa.me/51904767959"
       />
 
       {/* ── Nuestra Casa — horizontal scroll gallery ──────────────────────── */}
@@ -155,25 +155,25 @@ export default function Home() {
           onVerde
           items={[
             {
-              image: casa1,
-              alt: 'Loft con balcón frente al mar en Hotel Lobitos',
+              image: cuarto1,
+              alt: 'Habitación con cama con dosel y vista al mar en Hotel Bruma',
               caption: 'Loft frente al mar',
               imageWidth: 1440,
-              imageHeight: 1440,
+              imageHeight: 785,
             },
             {
-              image: casa2,
-              alt: 'Espacio común de Hotel Lobitos',
+              image: cuarto2,
+              alt: 'Cabaña con hamaca y tabla de surf frente al mar en Hotel Bruma',
               caption: 'Espacios comunes',
               imageWidth: 1440,
-              imageHeight: 1439,
+              imageHeight: 804,
             },
             {
-              image: casa3,
-              alt: 'Habitación con balcón frente al mar en Hotel Lobitos',
+              image: cuarto3,
+              alt: 'Habitación con balcón frente al mar en Hotel Bruma',
               caption: 'Habitaciones con vista',
               imageWidth: 1440,
-              imageHeight: 1440,
+              imageHeight: 785,
             },
           ]}
         />
@@ -184,7 +184,7 @@ export default function Home() {
         marquee
         title="Reserva tu Estancia"
         ctaLabel="Contactar"
-        ctaHref="https://wa.me/51974578082"
+        ctaHref="https://wa.me/51904767959"
       />
     </div>
   )

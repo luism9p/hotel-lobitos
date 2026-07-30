@@ -394,10 +394,10 @@ export const StaggeredMenu = ({
         })()}
       </div>
       <header className="staggered-menu-header" aria-label="Main navigation header">
-        <Link to="/" className="sm-logo" aria-label="Hotel Lobitos — Inicio">
+        <Link to="/" className="sm-logo" aria-label="Hotel Bruma — Inicio">
           <img
             src={logoUrl}
-            alt="Hotel Lobitos Restaurant &amp; Surf Academy"
+            alt="Hotel Bruma Restaurant &amp; Surf Academy"
             className="sm-logo-img"
             draggable={false}
             width={137}

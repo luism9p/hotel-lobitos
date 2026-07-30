@@ -7,15 +7,15 @@ import BookingWidget from '../components/sections/BookingWidget.jsx'
 import RequisitosBlock from '../components/sections/RequisitosBlock.jsx'
 import CTABanner from '../components/sections/CTABanner.jsx'
 import useScrollReveal from '../hooks/useScrollReveal.js'
-import f2 from '../assets/images/hotel/f2.avif'
-import fotoBote from '../assets/images/shared/foto-bote.avif'
-import fotoBuceando from '../assets/images/surf/foto-buceando.avif'
+import dominaLasOlasPhoto from '../assets/images/surf/domina-las-olas.webp'
+import toursYatePhoto from '../assets/images/shared/tours-yate.webp'
+import exploracionMarinaPhoto from '../assets/images/surf/exploracion-marina.webp'
 import softTopPhoto from '../assets/images/surf/soft-top.webp'
 import funboardPhoto from '../assets/images/surf/funboard.webp'
 import shortboardPhoto from '../assets/images/surf/shortboard.webp'
 import exploracionPhoto from '../assets/images/surf/exploracion.webp'
 
-const WA_HREF = 'https://wa.me/51974578082'
+const WA_HREF = 'https://wa.me/51904767959'
 
 export default function SurfAcademy() {
   const pageRef = useRef(null)
@@ -27,10 +27,10 @@ export default function SurfAcademy() {
         variant="page"
         eyebrow="Escuela de Surf Profesional"
         title="Domina las Olas de Lobitos con Expertos"
-        image={f2}
-        imageAlt="Surfista dentro de una ola en Lobitos"
-        imageWidth={1240}
-        imageHeight={828}
+        image={dominaLasOlasPhoto}
+        imageAlt="Instructor guiando a una alumna sobre la tabla en una ola de Lobitos"
+        imageWidth={900}
+        imageHeight={651}
         description="En Surf Academy Lobitos, transformamos tu pasión en técnica. Ya seas principiante o busques perfeccionar tu estilo, nuestros instructores locales te guiarán en las mejores izquierdas del mundo con un enfoque personalizado y aventurero."
         cta={{ label: 'Ver Clases', href: '#tablas', arrow: '→' }}
       />
@@ -91,18 +91,18 @@ export default function SurfAcademy() {
           {
             title: 'Exploración marina',
             text: 'Experiencias de exploración marina y costera que incluyen apnea, buceo en arrecifes y actividades de inmersión con protocolos de seguridad completos. Se integran también zonas de inmersión tipo "casa submarina", orientadas a la conexión directa con el ecosistema marino.',
-            image: fotoBuceando,
-            imageAlt: 'Buzo explorando el arrecife en Lobitos',
-            imageWidth: 601,
-            imageHeight: 579,
+            image: exploracionMarinaPhoto,
+            imageAlt: 'Buzo con aletas descendiendo hacia una tortuga marina y un arrecife de coral en Lobitos',
+            imageWidth: 1400,
+            imageHeight: 764,
           },
           {
             title: 'Rutas costeras',
             text: 'Rutas guiadas hacia destinos emblemáticos del litoral norte y norte-centro del Perú como Pacasmayo, Poemape, Chicama, Negritos (sus múltiples playas), Lobitos (sus seis playas), Órganos, El Ñuro, Cabo Blanco, Punta Sal y Máncora, entre otros escenarios naturales de alto valor paisajístico.',
-            image: fotoBote,
-            imageAlt: 'Yacht tour en la costa de Lobitos',
-            imageWidth: 601,
-            imageHeight: 579,
+            image: toursYatePhoto,
+            imageAlt: 'Yate navegando frente a los acantilados de la costa de Lobitos al atardecer',
+            imageWidth: 1400,
+            imageHeight: 764,
           },
           {
             title: 'Exploración terrestre',
@@ -131,7 +131,7 @@ export default function SurfAcademy() {
       <CTABanner
         variant="on-terracota"
         title="WhatsApp reservas"
-        phone="+51 974 578 082"
+        phone="+51 904 767 959"
         ctaLabel="Reservar Ahora"
         ctaHref={WA_HREF}
       />
